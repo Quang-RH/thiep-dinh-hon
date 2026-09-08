@@ -235,6 +235,30 @@ body.locked{overflow:hidden}
 .venue .vn{font-family:var(--f-title); font-weight:800; font-size:23px}
 .venue .va{color:var(--ink-soft); font-size:15px; margin-top:4px}
 .venue .acts{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:16px}
+/* khối gọi hỏi đường — số chính nổi bật, số phụ nhỏ bên dưới */
+.callbox{margin-top:18px}
+.callbox .lead{
+  font-family:var(--f-title); font-weight:700; font-size:12px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-soft); margin-bottom:10px;
+}
+.call-main{
+  display:inline-flex; align-items:center; gap:12px; text-decoration:none; color:var(--ink);
+  background:var(--butter); border:var(--bw) solid var(--line); border-radius:var(--r-md);
+  box-shadow:var(--pop); padding:11px 20px 11px 16px;
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.call-main:hover{transform:translate(-2px,-2px); box-shadow:var(--pop-lift)}
+.call-main:active{transform:translate(3px,3px); box-shadow:1px 1px 0 var(--line)}
+.call-main:focus-visible{outline:3px solid var(--pink-deep); outline-offset:3px}
+.call-main .ico{font-size:24px; line-height:1}
+.call-main .txt{text-align:left; line-height:1.25}
+.call-main .who{font-family:var(--f-title); font-weight:700; font-size:12.5px; color:var(--ink-soft)}
+.call-main .num{font-family:var(--f-title); font-weight:800; font-size:22px; letter-spacing:.01em; white-space:nowrap}
+.call-alt{margin-top:11px; font-size:13.5px; color:var(--ink-soft)}
+.call-alt a{
+  color:var(--pink-deep); font-weight:700; text-decoration:none;
+  border-bottom:2px dotted var(--pink); white-space:nowrap;
+}
 .coords{
   display:inline-flex; align-items:center; gap:8px; margin-top:12px;
   font-family:ui-monospace,Consolas,monospace; font-size:13.5px; font-weight:700; color:var(--ink);
@@ -658,8 +682,8 @@ body.locked{overflow:hidden}
       <div class="va" id="venue-when" style="font-weight:700;color:var(--pink-deep)">10:00 · Chủ Nhật, 20.09.2026</div>
       <div class="acts">
         <a class="btn mint" id="btn-maps" href="#" target="_blank" rel="noopener">🗺️ Mở Google Maps</a>
-        <a class="btn ghost" id="btn-call" href="#">📞 Gọi hỏi đường</a>
       </div>
+      <div class="callbox" id="callbox"></div>
       <div class="coords" id="coords" title="Bấm để copy tọa độ">📌 <span id="coords-txt">—</span></div>
       <div class="mapbox" id="mapbox"><style>
 /* ===== style của SVG bản đồ (scope trong .mapbox) ===== */
@@ -972,7 +996,14 @@ const CONFIG = {
     // ⬇️ ĐIỀN ĐỊA CHỈ CHI TIẾT khi có
     addr: "Số nhà … · Ấp/Khu phố … · Xã/Phường …<br>Huyện/TP. … · Tỉnh Tây Ninh",
     when: "10:00 · Chủ Nhật, 20.09.2026",
-    phone: "",          // vd "0901234567" — để trống thì ẩn nút gọi
+
+    /* Người hướng dẫn đường đi.
+       primary:true = số CHÍNH, hiện to + nền vàng. Các số còn lại xuống dòng "máy phụ".
+       Để mảng rỗng [] là ẩn hẳn khối gọi. */
+    contacts: [
+      { who: "Gọi chỉ đường", phone: "0908104042", primary: true },
+      { who: "Hỗ trợ thêm",   phone: "0906300060" },
+    ],
   },
 
   /* --- BẢN ĐỒ CHỈ ĐƯỜNG ---------------------------------------
@@ -1089,10 +1120,28 @@ const CONFIG = {
   const hint = document.getElementById("map-hint");
   if(hint && C.map.notice) hint.innerHTML = hint.innerHTML + "<br>⚠️ " + C.map.notice;
 
-  /* nút gọi */
-  const aCall = document.getElementById("btn-call");
-  if(C.venue.phone){ aCall.href = "tel:"+C.venue.phone.replace(/\s/g,""); }
-  else { aCall.style.display = "none"; }
+  /* khối gọi hỏi đường */
+  const cbox = document.getElementById("callbox");
+  const list = C.venue.contacts || [];
+  if(!cbox || !list.length){ if(cbox) cbox.style.display = "none"; }
+  else {
+    // số nào đánh primary thì lên trước; không đánh thì lấy số đầu tiên làm chính
+    const main = list.find(c=>c.primary) || list[0];
+    const alt  = list.filter(c=>c !== main);
+    const tel  = p => "tel:" + String(p).replace(/[^\d+]/g,"");
+    // 0908104042 -> 0908 104 042 (dễ đọc, dễ bấm tay)
+    const pretty = p => String(p).replace(/\D/g,"").replace(/^(\d{4})(\d{3})(\d{3})$/,"$1 $2 $3");
+    cbox.innerHTML =
+      '<div class="lead">Đi lạc thì gọi ngay</div>' +
+      `<a class="call-main" href="${tel(main.phone)}">
+         <span class="ico">📞</span>
+         <span class="txt"><span class="who">${main.who || "Chỉ đường"}</span><br>
+         <span class="num">${pretty(main.phone)}</span></span>
+       </a>` +
+      (alt.length ? '<div class="call-alt">' + alt.map(c=>
+         `${c.who || "Máy phụ"}: <a href="${tel(c.phone)}">${pretty(c.phone)}</a>`
+       ).join(" · ") + '</div>' : "");
+  }
 
   /* nhạc */
   if(C.musicUrl) document.getElementById("bg-music").src = C.musicUrl;
