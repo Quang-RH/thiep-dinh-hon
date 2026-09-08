@@ -327,6 +327,12 @@ body.locked{overflow:hidden}
   align-items:center; justify-content:center;
 }
 #music-btn.spin{animation:spin 3.2s linear infinite; background:var(--butter)}
+/* trình duyệt chặn tự phát -> nút nhấp nháy để khách biết có nhạc mà bấm */
+#music-btn.hint{background:var(--pink-soft); animation:hintPulse 1.5s ease-in-out infinite}
+@keyframes hintPulse{
+  0%,100%{transform:scale(1);   box-shadow:var(--pop-sm)}
+  50%    {transform:scale(1.12);box-shadow:5px 5px 0 var(--line)}
+}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 .reveal{opacity:0; transform:translateY(26px); transition:opacity .65s ease, transform .65s ease}
@@ -960,7 +966,7 @@ body.locked{overflow:hidden}
 </div>
 
 <button id="music-btn" title="Bật/tắt nhạc" aria-label="Bật tắt nhạc">🎵</button>
-<audio id="bg-music" loop></audio>
+<audio id="bg-music" loop preload="auto"></audio>
 <div id="confetti" aria-hidden="true"></div>
 <script>
 /* ============================================================
@@ -1042,8 +1048,12 @@ const CONFIG = {
     { nm:"Trang sức",    nt:"Mâm nhỏ nhất — quan trọng nhất." },
   ],
 
-  /* --- nhạc nền: để cùng thư mục rồi ghi "nhac.mp3" · rỗng = nút ẩn --- */
-  musicUrl: "",
+  /* --- nhạc nền: file để CÙNG THƯ MỤC với index.html rồi ghi đúng tên ở đây.
+         Rỗng "" = ẩn nút nhạc. File thiếu/sai tên -> nút cũng TỰ ẨN (không để nút chết).
+         Nhạc bật lúc bấm "Mở thiệp" — trình duyệt chặn tự phát khi mới vào trang. --- */
+  musicUrl: "yes-i-do.mp3",
+  musicVolume: 0.55,      // 0–1 · mở to quá làm khách giật mình
+  musicFadeIn: 2200,      // ms · nhạc vào êm thay vì bật phát to ngay
 
   /* --- RSVP: dán link Google Form (…/formResponse) hoặc endpoint riêng.
          Để trống -> vẫn hiện lời cảm ơn nhưng chỉ chạy phía trình duyệt. --- */
@@ -1155,11 +1165,59 @@ const music    = document.getElementById("bg-music");
 const musicBtn = document.getElementById("music-btn");
 let playing = false;
 
+const VOL  = Math.max(0, Math.min(1, CONFIG.musicVolume ?? 0.55));
+const FADE = CONFIG.musicFadeIn ?? 2200;
+let fadeTimer = null;
+
+/* File nhạc thiếu hoặc sai tên -> ẩn nút luôn, đừng để nút bấm không ra gì */
+music.addEventListener("error", ()=>{
+  musicBtn.style.display = "none";
+  musicBtn.classList.remove("spin","hint");
+});
+
+/* Tăng âm dần cho nhạc vào êm */
+function fadeTo(target, ms){
+  clearInterval(fadeTimer);
+  const from = music.volume, steps = Math.max(1, Math.round(ms/60));
+  let i = 0;
+  fadeTimer = setInterval(()=>{
+    i++;
+    music.volume = Math.max(0, Math.min(1, from + (target-from)*(i/steps)));
+    if(i >= steps) clearInterval(fadeTimer);
+  }, 60);
+}
+
 function toggleMusic(force){
   if(!CONFIG.musicUrl){ musicBtn.classList.remove("spin"); return; }
-  if(force===true || (force===undefined && !playing)){
-    music.play().then(()=>{ playing=true; musicBtn.classList.add("spin"); }).catch(()=>{});
-  } else { music.pause(); playing=false; musicBtn.classList.remove("spin"); }
+  const wantPlay = force === true || (force === undefined && !playing);
+  if(wantPlay){
+    music.volume = 0;
+    music.play().then(()=>{
+      playing = true;
+      musicBtn.classList.add("spin");
+      musicBtn.classList.remove("hint");
+      fadeTo(VOL, FADE);
+    }).catch(()=>{
+      playing = false;
+      musicBtn.classList.remove("spin");
+      // Phân biệt 2 lý do play() thất bại — nhìn giống nhau nhưng xử lý trái ngược:
+      //   thiếu/sai file nhạc  -> ẩn nút (bấm cũng không ra gì)
+      //   bị chặn tự phát (iOS) -> nhấp nháy mời khách tự bấm, bấm là chạy
+      // networkState 3 = NETWORK_NO_SOURCE. Phải kiểm ở đây vì src được gán
+      // trước lúc listener 'error' bên dưới kịp gắn nên event có thể lọt.
+      if(music.error || music.networkState === 3){
+        musicBtn.style.display = "none";
+        musicBtn.classList.remove("hint");
+      } else {
+        musicBtn.classList.add("hint");
+      }
+    });
+  } else {
+    clearInterval(fadeTimer);
+    music.pause();
+    playing = false;
+    musicBtn.classList.remove("spin");
+  }
 }
 document.getElementById("open-btn").addEventListener("click",()=>{
   cover.classList.add("open");
