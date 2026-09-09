@@ -193,6 +193,11 @@ body.locked{overflow:hidden}
 }
 .tray .nm{font-family:var(--f-serif); font-size:16.5px; color:var(--ink)}
 .tray .nt{font-size:13.5px; color:var(--ink-soft); line-height:1.6}
+/* lễ vật trao riêng — tách khỏi danh sách đánh số để không bị hiểu là mâm thứ 6 */
+.tray-extra{margin-top:22px; padding:20px 22px; background:var(--cream-2); border-radius:8px; text-align:center}
+.tray-extra .ex-lead{font-size:10.5px; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); margin-bottom:6px}
+.tray-extra .ex-nm{font-family:var(--f-serif); font-size:17px; color:var(--ink)}
+.tray-extra .ex-nt{font-size:13.5px; color:var(--ink-soft); line-height:1.6; margin-top:2px}
 
 /* ============================================================
    8 · ĐỊA ĐIỂM + BẢN ĐỒ
@@ -457,11 +462,12 @@ body.locked{overflow:hidden}
 <section class="reveal">
   <div class="wrap center">
     <span class="label">Lễ vật</span>
-    <h2 class="sec-title">Sáu mâm quả</h2>
+    <h2 class="sec-title" id="trays-title">Năm mâm quả</h2>
     <p class="sec-sub">Lễ vật nhà trai mang sang, theo đúng phong tục truyền thống.</p>
   </div>
   <div class="wrap">
     <div class="trays" id="trays"></div>
+    <div class="tray-extra" id="trays-extra"></div>
   </div>
 </section>
 
@@ -833,9 +839,14 @@ const CONFIG = {
     { nm:"Trà &amp; Rượu",   nt:"Kính dâng lên tổ tiên hai họ." },
     { nm:"Bánh phu thê", nt:"Biểu trưng cho nghĩa vợ chồng." },
     { nm:"Trái cây",     nt:"Cầu mong ngọt lành, sung túc." },
-    { nm:"Xôi &amp; Gà",     nt:"Lễ vật truyền thống dâng gia tiên." },
-    { nm:"Trang sức",    nt:"Nhà trai trao cho cô dâu." },
+    { nm:"Bánh ngọt",    nt:"Chia lộc ngọt cùng họ hàng, quan khách." },
   ],
+  /* Lễ vật trao riêng, KHÔNG nằm trong số mâm quả.
+     Để null nếu không muốn hiện khối này. */
+  traysExtra: {
+    nm: "Hộp trang sức",
+    nt: "Nhà trai trao riêng cho cô dâu trong lễ, không tính vào mâm quả.",
+  },
 
   /* --- nhạc nền: file để CÙNG THƯ MỤC với index.html rồi ghi đúng tên ở đây.
          Rỗng "" = ẩn nút nhạc. File thiếu/sai tên -> nút cũng TỰ ẨN.
@@ -878,12 +889,24 @@ const CONFIG = {
       <div class="txt"><div class="t">${e.t}</div><div class="n">${e.n}</div></div>
     </li>`).join("");
 
-  /* sáu mâm quả */
+  /* mâm quả — tiêu đề đếm theo đúng số mâm trong danh sách, khỏi lệch khi thêm bớt */
   document.getElementById("trays").innerHTML = C.trays.map((t,i)=>`
     <div class="tray">
       <div class="no">${String(i+1).padStart(2,"0")}</div>
       <div><div class="nm">${t.nm}</div><div class="nt">${t.nt}</div></div>
     </div>`).join("");
+  const SO = ["Không","Một","Hai","Ba","Bốn","Năm","Sáu","Bảy","Tám","Chín","Mười"];
+  set("trays-title", (SO[C.trays.length] || C.trays.length) + " mâm quả");
+
+  /* lễ vật trao riêng, không nằm trong số mâm quả */
+  const ex = document.getElementById("trays-extra");
+  if(ex){
+    if(C.traysExtra){
+      ex.innerHTML = `<div class="ex-lead">Trao riêng</div>
+        <div class="ex-nm">${C.traysExtra.nm}</div>
+        <div class="ex-nt">${C.traysExtra.nt}</div>`;
+    } else { ex.style.display = "none"; }
+  }
 
   /* bản đồ + toạ độ */
   const mapsUrl = C.map.mapsUrl || `https://www.google.com/maps?q=${encodeURIComponent(C.map.coords)}`;
