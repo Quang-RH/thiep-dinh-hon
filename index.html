@@ -80,8 +80,9 @@ h2.sec-title{
 
 .card{
   background:var(--white); border:var(--line-soft); border-radius:10px;
-  box-shadow:var(--shadow); padding:26px 22px;
+  box-shadow:var(--shadow); padding:22px 20px;
 }
+.card p{line-height:1.68}
 
 /* nét chia có nhành ô liu ở giữa */
 .divider{display:flex; align-items:center; justify-content:center; gap:10px; margin:18px 0}
@@ -258,6 +259,20 @@ body.locked{overflow:hidden}
 }
 .mapbox svg{display:block; width:100%; height:auto; min-width:660px}
 .map-hint{font-size:12.5px; color:var(--ink-faint); margin-top:12px; line-height:1.6}
+/* chặng cuối bằng chữ — đọc được ngay, khỏi phóng to sơ đồ mới thấy mốc đường */
+.lastleg{margin-top:14px; padding:14px 16px; background:var(--cream-2); border-radius:8px; text-align:left}
+.lastleg .ll-lead{font-size:10.5px; letter-spacing:.28em; text-transform:uppercase; color:var(--gold); margin-bottom:8px; text-align:center}
+.lastleg ol{margin:0; padding:0; list-style:none; counter-reset:ll}
+.lastleg li{
+  position:relative; padding:4px 0 4px 24px; font-size:13.5px; line-height:1.5; color:var(--ink);
+  counter-increment:ll;
+}
+.lastleg li::before{
+  content:counter(ll); position:absolute; left:0; top:5px;
+  font-family:var(--f-serif); font-size:12px; color:var(--gold);
+}
+.lastleg li + li{border-top:var(--line-soft)}
+.lastleg b{font-weight:600; color:var(--green-dark)}
 
 /* xem sơ đồ toàn màn hình */
 #mapview{position:fixed; inset:0; z-index:120; display:none; background:rgba(45,48,36,.96)}
@@ -410,12 +425,15 @@ section:has(#rsvp-form) .card{padding:20px 18px}
     <h2 class="sec-title">Trân trọng kính mời</h2>
     <div class="divider"><span class="dot"></span></div>
     <div class="card" style="text-align:left">
-      <p style="margin:0 0 14px">Sau những năm tháng cùng nhau đi qua bao buồn vui,
-      hai chúng con đã quyết định về chung một nhà.</p>
-      <p style="margin:0 0 14px">Nhà trai xin phép sang thưa chuyện cùng nhà gái,
-      để đôi trẻ chính thức nên duyên trước sự chứng giám của tổ tiên hai họ.</p>
-      <p style="margin:0">Kính mong Quý khách cùng gia quyến sắp xếp thời gian
-      đến chung vui và chứng kiến giây phút ấy.</p>
+      <p style="margin:0 0 11px">Sau những tháng năm đồng hành, cùng nhau đi qua những vui buồn
+      của cuộc sống, chúng con đã chọn nắm tay nhau bước vào một hành trình mới —
+      hành trình về chung một nhà.</p>
+      <p style="margin:0 0 11px">Trong ngày vui này, nhà trai xin phép được sang thưa chuyện
+      cùng nhà gái, để đôi trẻ chính thức nên duyên trước sự chứng kiến và chúc phúc
+      của hai bên gia đình.</p>
+      <p style="margin:0">Chúng con trân trọng kính mời Quý khách cùng gia đình dành chút
+      thời gian đến chung vui, và cùng chứng kiến khoảnh khắc ý nghĩa khi hai gia đình
+      chính thức kết thành thông gia.</p>
     </div>
   </div>
 </section>
@@ -558,7 +576,7 @@ section:has(#rsvp-form) .card{padding:20px 18px}
 
 <!-- ============ TIÊU ĐỀ ============ -->
 <text class="ttl" x="90" y="150">SƠ ĐỒ ĐƯỜNG ĐI</text>
-<text class="sub" x="92" y="196">Bình Chánh, TP.HCM</text>
+<text class="sub" x="92" y="196">Phạm Thị Hớn · Phước Lý, Tây Ninh</text>
 
 <!-- ============ ĐƯỜNG ============
      QL1A = 2 chiều riêng biệt, giữa có dải phân cách (chỉ hở ở điểm quay đầu) -->
@@ -659,7 +677,7 @@ section:has(#rsvp-form) .card{padding:20px 18px}
 
 <!-- ============ BẢNG LỘ TRÌNH ============ -->
 <g>
-  <rect x="130" y="600" width="800" height="470" fill="#fff" fill-opacity=".85"
+  <rect x="130" y="600" width="800" height="512" fill="#fff" fill-opacity=".85"
         stroke="var(--frame)" stroke-width="3"/>
   <text class="pnl-h" x="172" y="660">LỘ TRÌNH</text>
   <path d="M172,684 H888" stroke="var(--frame)" stroke-width="2"/>
@@ -672,9 +690,10 @@ section:has(#rsvp-form) .card{padding:20px 18px}
   <circle cx="194" cy="912" r="21" fill="var(--accent)"/><text class="num" x="194" y="922" text-anchor="middle">4</text>
   <text class="step" x="234" y="922">Chạy ngược lại, rẽ vào <tspan font-weight="700">đường Ba Làng</tspan> · 1,0 km</text>
   <circle cx="194" cy="972" r="21" fill="var(--accent)"/><text class="num" x="194" y="982" text-anchor="middle">5</text>
-  <text class="step" x="234" y="982">Quẹo trái vào <tspan font-weight="700">Phạm Thị Hớn</tspan>, 430 m là tới nhà</text>
-  <path d="M172,1018 H888" stroke="var(--frame)" stroke-width="2"/>
-  <text class="tot" x="172" y="1050">Tổng ~1,4 km kể từ chỗ rẽ Ba Làng</text>
+  <text class="step" x="234" y="978" font-size="24">Tới ngã tư có <tspan font-weight="700">bảng chùa Pháp Huệ</tspan>, quẹo trái ngay</text>
+  <text class="step" x="234" y="1012" font-size="24"><tspan font-weight="700">tiệm tạp hoá cửa xanh</tspan> vào <tspan font-weight="700">Phạm Thị Hớn</tspan> · 430 m là tới</text>
+  <path d="M172,1052 H888" stroke="var(--frame)" stroke-width="2"/>
+  <text class="tot" x="172" y="1088">Tổng ~1,4 km kể từ chỗ rẽ Ba Làng</text>
 </g>
 
 <!-- badge số trên bản đồ -->
@@ -722,6 +741,7 @@ section:has(#rsvp-form) .card{padding:20px 18px}
 </g>
 </svg></div>
     <div style="margin-top:16px"><button class="btn ghost" id="map-zoom" type="button">Xem sơ đồ cỡ lớn</button></div>
+    <div class="lastleg" id="lastleg"></div>
     <div class="map-hint" id="map-hint">Chạm vào sơ đồ để mở Google Maps</div>
   </div>
 </section>
@@ -819,8 +839,7 @@ const CONFIG = {
   /* --- địa điểm --- */
   venue: {
     name: "Tư Gia Nhà Gái",
-    // ⬇️ ĐIỀN ĐỊA CHỈ CHI TIẾT khi có
-    addr: "Số nhà … · Ấp/Khu phố … · Xã/Phường …<br>Huyện/TP. … · Tỉnh Tây Ninh",
+    addr: "Đường Phạm Thị Hớn<br>Xã Phước Lý · Tỉnh Tây Ninh",
     when: "10:00 · Chủ Nhật, 20.09.2026",
 
     /* Người hướng dẫn đường đi.
@@ -833,16 +852,23 @@ const CONFIG = {
   },
 
   /* --- BẢN ĐỒ CHỈ ĐƯỜNG ---------------------------------------
-     ⚠️ LƯU Ý: hình sơ đồ đang vẽ là đường tới nhà ở đường Phạm Thị Hớn,
-     Bình Chánh, TP.HCM (toạ độ bên dưới). Lễ đám hỏi đã chốt ở TÂY NINH
-     → khi có toạ độ + mô tả đường đi Tây Ninh thì vẽ lại sơ đồ,
-     hoặc đặt show:false để chỉ hiện nút Google Maps.
+     Đích sơ đồ = đường Phạm Thị Hớn, Xã Phước Lý, Tỉnh Tây Ninh —
+     ĐÚNG địa chỉ tổ chức. Tuyến đi từ chợ Bình Chánh (TP.HCM) theo QL1A
+     nên chặng đầu nằm bên địa phận TP.HCM.
      ------------------------------------------------------------ */
   map: {
     show:   true,
     coords: "10.647887, 106.560695",
     mapsUrl: "",   // để trống thì tự sinh link Google Maps từ coords
-    notice: "Sơ đồ hiện tại là đường tới tư gia ở Bình Chánh, TP.HCM — đang chờ toạ độ Tây Ninh để vẽ lại.",
+    notice: "",
+
+    /* Mô tả chặng cuối bằng MỐC DỄ NHẬN BIẾT — đoạn này nhiều hẻm, dễ quẹo nhầm.
+       Để mảng rỗng [] là ẩn khối này. */
+    lastLeg: [
+      "Từ <b>Ba Làng</b> chạy thẳng tới ngã tư có <b>bảng chỉ dẫn chùa Pháp Huệ</b>",
+      "Quẹo trái ngay <b>tiệm tạp hoá cửa màu xanh</b>",
+      "Đi thẳng là tới nhà",
+    ],
   },
 
   /* --- chương trình lễ --- */
@@ -949,6 +975,16 @@ const CONFIG = {
   }
   const hint = document.getElementById("map-hint");
   if(hint && C.map.notice) hint.innerHTML += "<br>" + C.map.notice;
+
+  /* chặng cuối bằng chữ — đoạn nhiều hẻm, khách hay quẹo nhầm */
+  const ll = document.getElementById("lastleg");
+  const legs = (C.map.lastLeg || []);
+  if(ll){
+    if(legs.length){
+      ll.innerHTML = '<div class="ll-lead">Đoạn cuối · đi theo mốc này</div><ol>'
+        + legs.map(x=>`<li>${x}</li>`).join("") + '</ol>';
+    } else { ll.style.display = "none"; }
+  }
 
   /* khối gọi hỏi đường */
   const cbox = document.getElementById("callbox");
