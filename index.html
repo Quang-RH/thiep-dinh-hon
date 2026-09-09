@@ -63,7 +63,7 @@ section, header.hero{
   scroll-snap-align:start;
   scroll-snap-stop:always;
   display:flex; flex-direction:column; justify-content:center;
-  padding:36px 0;
+  padding:30px 0;
 }
 .center{text-align:center}
 
@@ -218,7 +218,7 @@ body.locked{overflow:hidden}
    ============================================================ */
 .venue{
   background:var(--white); border:var(--line-soft); border-radius:10px;
-  box-shadow:var(--shadow); padding:24px 18px; text-align:center; margin-top:18px;
+  box-shadow:var(--shadow); padding:20px 16px; text-align:center; margin-top:16px;
 }
 .venue .vn{font-family:var(--f-serif); font-size:22px; color:var(--green-dark); line-height:1.35}
 .venue .va{color:var(--ink-soft); font-size:14.5px; margin-top:8px}
@@ -226,20 +226,31 @@ body.locked{overflow:hidden}
 .venue .acts{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:16px}
 
 /* gọi hỏi đường — số chính nổi, số phụ nhỏ */
-.callbox{margin-top:18px; padding-top:18px; border-top:var(--line-soft)}
-.callbox .lead{font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:8px}
-.call-main{
-  display:inline-flex; align-items:center; gap:14px; text-decoration:none;
-  background:var(--cream-2); border:var(--line-gold); border-radius:8px;
-  padding:11px 20px; color:var(--ink); transition:background .25s ease;
+.callbox{margin-top:14px; padding-top:14px; border-top:var(--line-soft)}
+.callbox .lead{font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px}
+/* 1 thẻ / 1 người · số to dễ đọc · 2 hành động tách bạch: bấm số = gọi, nút = sao chép */
+.contact{
+  background:var(--cream-2); border:var(--line-soft); border-radius:8px;
+  padding:9px 12px; text-align:center;
 }
-.call-main:hover{background:var(--green-pale)}
-.call-main:focus-visible{outline:2px solid var(--green); outline-offset:3px}
-.call-main .txt{text-align:left; line-height:1.35}
-.call-main .who{font-size:12px; letter-spacing:.08em; color:var(--ink-soft)}
-.call-main .num{font-family:var(--f-serif); font-size:23px; color:var(--green-dark); letter-spacing:.02em; white-space:nowrap}
-.call-alt{margin-top:13px; font-size:13.5px; color:var(--ink-soft)}
-.call-alt a{color:var(--green); font-weight:500; text-decoration:none; border-bottom:1px solid var(--gold-soft); white-space:nowrap}
+.contact + .contact{margin-top:9px}
+.contact.primary{border:var(--line-gold); background:var(--green-pale)}
+.c-who{font-size:12px; letter-spacing:.06em; color:var(--ink-soft); line-height:1.4}
+.c-row{display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap; margin-top:3px}
+.c-num{
+  font-family:var(--f-serif); font-size:24px; letter-spacing:.05em; white-space:nowrap;
+  color:var(--green-dark); text-decoration:none; padding:2px 4px; border-bottom:1px solid var(--gold-soft);
+}
+.c-num:hover{color:var(--green)}
+.c-num:focus-visible{outline:2px solid var(--green); outline-offset:3px}
+.c-copy{
+  flex:0 0 auto; font-family:var(--f-body); font-size:11.5px; letter-spacing:.04em;
+  color:var(--ink-soft); background:var(--white); border:var(--line-soft);
+  border-radius:999px; padding:6px 13px; cursor:pointer; transition:background .2s ease;
+}
+.c-copy:hover{background:var(--cream)}
+.c-copy.done{background:var(--green); color:var(--white); border-color:var(--green)}
+.call-hint{font-size:11.5px; color:var(--ink-faint); margin-top:7px; line-height:1.5}
 
 .coords{
   display:inline-flex; align-items:center; gap:8px; margin-top:12px;
@@ -516,7 +527,6 @@ section:has(#rsvp-form) .card{padding:20px 18px}
       <div class="acts">
         <a class="btn" id="btn-maps" href="#" target="_blank" rel="noopener">Mở Google Maps</a>
       </div>
-      <div class="coords" id="coords" title="Bấm để sao chép toạ độ"><span id="coords-txt">—</span></div>
       <div class="callbox" id="callbox"></div>
     </div>
   </div>
@@ -742,6 +752,7 @@ section:has(#rsvp-form) .card{padding:20px 18px}
 </svg></div>
     <div style="margin-top:16px"><button class="btn ghost" id="map-zoom" type="button">Xem sơ đồ cỡ lớn</button></div>
     <div class="lastleg" id="lastleg"></div>
+    <div class="coords" id="coords" title="Bấm để sao chép toạ độ"><span id="coords-txt">—</span></div>
     <div class="map-hint" id="map-hint">Chạm vào sơ đồ để mở Google Maps</div>
   </div>
 </section>
@@ -991,20 +1002,22 @@ const CONFIG = {
   const list = C.venue.contacts || [];
   if(!cbox || !list.length){ if(cbox) cbox.style.display = "none"; }
   else {
-    const main = list.find(c=>c.primary) || list[0];
-    const alt  = list.filter(c=>c !== main);
-    const tel  = p => "tel:" + String(p).replace(/[^\d+]/g,"");
-    // 0908104042 -> 0908 104 042 (dễ đọc, dễ bấm)
+    const digits = p => String(p).replace(/[^\d+]/g,"");
+    // 0908104042 -> 0908 104 042 (mắt đọc theo nhóm, dễ đối chiếu khi bấm tay)
     const pretty = p => String(p).replace(/\D/g,"").replace(/^(\d{4})(\d{3})(\d{3})$/,"$1 $2 $3");
+    const main = list.find(c=>c.primary) || list[0];
+    const sorted = [main].concat(list.filter(c=>c !== main));
     cbox.innerHTML =
       '<div class="lead">Cần chỉ đường xin liên hệ</div>' +
-      `<a class="call-main" href="${tel(main.phone)}">
-         <span class="txt"><span class="who">${main.who || "Chỉ đường"}</span><br>
-         <span class="num">${pretty(main.phone)}</span></span>
-       </a>` +
-      (alt.length ? '<div class="call-alt">' + alt.map(c=>
-         `${c.who || "Máy phụ"}: <a href="${tel(c.phone)}">${pretty(c.phone)}</a>`
-       ).join(" · ") + '</div>' : "");
+      sorted.map(c=>`
+        <div class="contact${c === main ? " primary" : ""}">
+          <div class="c-who">${c.who || "Liên hệ"}</div>
+          <div class="c-row">
+            <a class="c-num" href="tel:${digits(c.phone)}">${pretty(c.phone)}</a>
+            <button class="c-copy" type="button" data-phone="${digits(c.phone)}">Sao chép</button>
+          </div>
+        </div>`).join("") +
+      '<div class="call-hint">Bấm vào số để gọi · bấm “Sao chép” để lưu số</div>';
   }
 
   /* nhạc */
@@ -1173,6 +1186,61 @@ function fallLeaves(n){
 })();
 
 /* ============================================================
+   SAO CHÉP SỐ ĐIỆN THOẠI
+   ============================================================ */
+function copyLegacy(txt){
+  return new Promise((resolve,reject)=>{
+    const ta = document.createElement("textarea");
+    ta.value = txt;
+    ta.setAttribute("readonly","");
+    ta.style.position = "fixed"; ta.style.top = "-1000px";
+    document.body.appendChild(ta);
+    ta.select(); ta.setSelectionRange(0, txt.length);
+    let ok = false;
+    try{ ok = document.execCommand("copy"); }catch(_){}
+    ta.remove();
+    ok ? resolve() : reject(new Error("execCommand fail"));
+  });
+}
+function copyText(txt){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    // navigator.clipboard.writeText có thể TREO VÔ HẠN (không resolve, không reject)
+    // khi trang không được focus — hay gặp trong webview Zalo/Facebook.
+    // Không đặt hạn thì nút bấm xong im lặng, khách tưởng hỏng. Đã tái hiện được lỗi này.
+    return Promise.race([
+      navigator.clipboard.writeText(txt),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error("clipboard timeout")), 700)),
+    ]).catch(()=>copyLegacy(txt));
+  }
+  return copyLegacy(txt);
+}
+/* Copy kiểu nào cũng thất bại -> bôi đen sẵn con số để khách giữ-rồi-Copy bằng tay */
+function selectPhone(btn){
+  const num = btn.parentElement && btn.parentElement.querySelector(".c-num");
+  if(!num || !window.getSelection) return;
+  const r = document.createRange();
+  r.selectNodeContents(num);
+  const sel = window.getSelection();
+  sel.removeAllRanges(); sel.addRange(r);
+}
+
+document.addEventListener("click",(ev)=>{
+  const btn = ev.target.closest(".c-copy");
+  if(!btn) return;
+  ev.preventDefault();
+  const phone = btn.dataset.phone || "";
+  copyText(phone).then(()=>{
+    btn.classList.add("done");
+    btn.textContent = "Đã sao chép";
+    setTimeout(()=>{ btn.classList.remove("done"); btn.textContent = "Sao chép"; }, 1700);
+  }).catch(()=>{
+    selectPhone(btn);
+    btn.textContent = "Giữ để copy";
+    setTimeout(()=>{ btn.textContent = "Sao chép"; }, 2400);
+  });
+});
+
+/* ============================================================
    SAO CHÉP TOẠ ĐỘ
    ============================================================ */
 document.getElementById("coords").addEventListener("click",(e)=>{
@@ -1184,11 +1252,7 @@ document.getElementById("coords").addEventListener("click",(e)=>{
     el.textContent = "Đã sao chép toạ độ";
     setTimeout(()=>{ el.textContent = txt; }, 1600);
   };
-  if(navigator.clipboard) navigator.clipboard.writeText(txt).then(done).catch(()=>{});
-  else {
-    const ta=document.createElement("textarea"); ta.value=txt; document.body.appendChild(ta);
-    ta.select(); try{document.execCommand("copy"); done();}catch(_){} ta.remove();
-  }
+  copyText(txt).then(done).catch(()=>{});
 });
 
 /* ============================================================
