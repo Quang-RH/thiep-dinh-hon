@@ -24,6 +24,11 @@ var EVENT_NAME   = "Đám hỏi Đắc Quang & Trúc Nhi";
 var EVENT_DATE   = "Chủ Nhật, 20.09.2026";
 var TIMEZONE     = "Asia/Ho_Chi_Minh";
 
+// ID của Google Sheet nhận dữ liệu (lấy từ link, đoạn giữa /d/ và /edit).
+// Gắn ID cứng để script chạy được CẢ KHI nó là script độc lập —
+// getActiveSpreadsheet() chỉ có giá trị khi script gắn trong chính Sheet đó.
+var SHEET_ID = "1FRP0NQsvSMLtAoKgYRBWr_jDI-0Sm7xRVAx6oyrLX0s";
+
 var HEADERS = ['Thời gian', 'Quý danh', 'Tham dự', 'Số người', 'Lời chúc'];
 
 /* -- bảng màu, lấy theo tông thiệp để email và thiệp cùng một bộ -- */
@@ -51,7 +56,7 @@ function doPost(e) {
     lock.waitLock(30000);
 
     var data  = JSON.parse(e.postData.contents);
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+    var sheet = laySheet();
 
     if (sheet.getLastRow() === 0) {
       sheet.appendRow(HEADERS);
@@ -81,6 +86,19 @@ function doPost(e) {
   } finally {
     try { lock.releaseLock(); } catch (e2) { /* đã nhả ở trên */ }
   }
+}
+
+/** Lấy Sheet để ghi: ưu tiên mở theo ID, không được thì lấy sheet đang gắn script. */
+function layFile() {
+  if (SHEET_ID) {
+    try { return SpreadsheetApp.openById(SHEET_ID); } catch (err) { /* rơi xuống dưới */ }
+  }
+  return SpreadsheetApp.getActiveSpreadsheet();
+}
+function laySheet() {
+  var f = layFile();
+  if (!f) throw new Error('Khong mo duoc Google Sheet — kiem lai SHEET_ID va quyen truy cap.');
+  return f.getSheets()[0];
 }
 
 function json(obj) {
@@ -120,7 +138,7 @@ function notifyOwner(data, when, sheet) {
   var tong = sheet ? tinhTong(sheet) : null;
 
   var sheetUrl = '';
-  try { sheetUrl = SpreadsheetApp.getActiveSpreadsheet().getUrl(); } catch (err) {}
+  try { sheetUrl = layFile().getUrl(); } catch (err) {}
 
   var subject = dau + ' ' + name + ' · ' + (di ? guests + ' người' : 'không đến được');
 
@@ -239,7 +257,7 @@ function testRsvp() {
     guests: 2,
     message: 'Chúc hai bạn trăm năm hạnh phúc, sớm có tin vui!'
   };
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+  var sheet = laySheet();
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(HEADERS);
     sheet.getRange(1, 1, 1, HEADERS.length).setFontWeight('bold');
@@ -252,7 +270,7 @@ function testRsvp() {
 
 /** Thử riêng email "không đến được" để xem màu/nhãn đổi đúng chưa. */
 function testRsvpVang() {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+  var sheet = laySheet();
   notifyOwner({
     name: 'Khách Vắng', attend: 'Rất tiếc, tôi không đến được',
     guests: 1, message: 'Xin phép vắng, chúc hai bạn hạnh phúc.'
@@ -261,7 +279,7 @@ function testRsvpVang() {
 
 /** (tuỳ chọn) chạy tay 1 lần để tạo dòng tiêu đề đẹp. */
 function setupHeader() {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+  var sheet = laySheet();
   sheet.clear();
   sheet.appendRow(HEADERS);
   sheet.getRange(1, 1, 1, HEADERS.length).setFontWeight('bold');

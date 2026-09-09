@@ -9,9 +9,13 @@ Kết quả: khách bấm "Gửi xác nhận" → **ghi 1 dòng vào Google Shee
 
 ---
 
-## Bước 1 — Tạo Google Sheet
-1. Vào https://sheets.new → đặt tên, vd *"Xác nhận đám hỏi 20.09.2026"*.
-2. Để trống. Code tự tạo dòng tiêu đề.
+## Bước 1 — Google Sheet ✅ ĐÃ CÓ
+Sheet đang dùng:
+https://docs.google.com/spreadsheets/d/1FRP0NQsvSMLtAoKgYRBWr_jDI-0Sm7xRVAx6oyrLX0s/edit
+
+ID của nó đã gắn cứng trong `Code.gs` (biến `SHEET_ID`), nên script chạy được
+kể cả khi là script độc lập. Đổi sang Sheet khác thì sửa `SHEET_ID`.
+Để trống sheet — code tự tạo dòng tiêu đề.
 
 ## Bước 2 — Dán Apps Script
 1. Trong Sheet đó: **Extensions → Apps Script**.
