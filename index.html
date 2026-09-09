@@ -34,7 +34,14 @@
   --wrap:min(560px,100%);
 }
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth}
+html{
+  scroll-behavior:smooth;
+  /* Vuốt xuống là nhảy trọn 1 mục, không phải cuộn từng chút.
+     scroll-snap-stop:always ở dưới chặn việc vuốt mạnh nhảy vọt qua 2-3 mục.
+     Mục nào CAO HƠN màn hình (trình tự buổi lễ, địa điểm) thì theo chuẩn
+     scroll-snap sẽ cuộn tự do bên trong, không bị kẹt — nên vẫn đọc được hết. */
+  scroll-snap-type:y mandatory;
+}
 body{
   margin:0; font-family:var(--f-body); font-weight:300;
   color:var(--ink); font-size:15.5px; line-height:1.8;
@@ -46,7 +53,18 @@ img,svg{max-width:100%}
    1 · KHỐI DÙNG LẠI
    ============================================================ */
 .wrap{width:var(--wrap); margin:0 auto; padding:0 22px}
-section{padding:58px 0}
+/* Mỗi mục = 1 "slide" cao trọn màn hình, nội dung canh giữa theo chiều dọc.
+   Dùng min-height (không phải height) để mục nào dài hơn thì tự cao thêm,
+   khỏi bị cắt mất chữ. 100svh = phần màn hình thấy được thật trên điện thoại,
+   tránh lỗi thanh địa chỉ iOS làm 100vh bị hụt. */
+section, header.hero{
+  min-height:100vh;
+  min-height:100svh;
+  scroll-snap-align:start;
+  scroll-snap-stop:always;
+  display:flex; flex-direction:column; justify-content:center;
+  padding:36px 0;
+}
 .center{text-align:center}
 
 .label{
@@ -114,7 +132,7 @@ body.locked{overflow:hidden}
 /* ============================================================
    3 · MỞ ĐẦU
    ============================================================ */
-.hero{padding:56px 0 12px; text-align:center}
+.hero{text-align:center}
 .hero .names{
   font-family:var(--f-script); font-size:clamp(36px,12.5vw,56px);
   color:var(--green); line-height:1.06; margin:16px 0 0; font-weight:400;
@@ -166,9 +184,9 @@ body.locked{overflow:hidden}
 /* ============================================================
    6 · CHƯƠNG TRÌNH
    ============================================================ */
-.tl{list-style:none; margin:26px 0 0; padding:0; position:relative}
+.tl{list-style:none; margin:16px 0 0; padding:0; position:relative}
 .tl::before{content:""; position:absolute; left:64px; top:10px; bottom:10px; width:1px; background:var(--cream-3)}
-.tl li{display:flex; gap:22px; align-items:flex-start; padding:13px 0; position:relative}
+.tl li{display:flex; gap:16px; align-items:flex-start; padding:7px 0; position:relative}
 .tl .h{
   flex:0 0 52px; text-align:right; font-family:var(--f-serif);
   font-size:15px; color:var(--green-dark); padding-top:1px;
@@ -179,8 +197,8 @@ body.locked{overflow:hidden}
 }
 .tl li:nth-child(3) .bullet, .tl li:nth-child(5) .bullet{background:var(--gold)}
 .tl .txt{flex:1 1 auto; padding-left:6px}
-.tl .t{font-family:var(--f-serif); font-size:16.5px; color:var(--ink); line-height:1.4}
-.tl .n{font-size:13.5px; color:var(--ink-soft); line-height:1.6}
+.tl .t{font-family:var(--f-serif); font-size:15.5px; color:var(--ink); line-height:1.35}
+.tl .n{font-size:13px; color:var(--ink-soft); line-height:1.5}
 
 /* ============================================================
    7 · MÂM QUẢ
@@ -199,20 +217,20 @@ body.locked{overflow:hidden}
    ============================================================ */
 .venue{
   background:var(--white); border:var(--line-soft); border-radius:10px;
-  box-shadow:var(--shadow); padding:30px 22px; text-align:center; margin-top:24px;
+  box-shadow:var(--shadow); padding:24px 18px; text-align:center; margin-top:18px;
 }
-.venue .vn{font-family:var(--f-serif); font-size:24px; color:var(--green-dark); line-height:1.35}
+.venue .vn{font-family:var(--f-serif); font-size:22px; color:var(--green-dark); line-height:1.35}
 .venue .va{color:var(--ink-soft); font-size:14.5px; margin-top:8px}
 .venue .vw{font-family:var(--f-serif); font-size:15px; color:var(--gold); margin-top:12px; letter-spacing:.04em}
-.venue .acts{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:22px}
+.venue .acts{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:16px}
 
 /* gọi hỏi đường — số chính nổi, số phụ nhỏ */
-.callbox{margin-top:26px; padding-top:24px; border-top:var(--line-soft)}
-.callbox .lead{font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:12px}
+.callbox{margin-top:18px; padding-top:18px; border-top:var(--line-soft)}
+.callbox .lead{font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:8px}
 .call-main{
   display:inline-flex; align-items:center; gap:14px; text-decoration:none;
   background:var(--cream-2); border:var(--line-gold); border-radius:8px;
-  padding:14px 24px; color:var(--ink); transition:background .25s ease;
+  padding:11px 20px; color:var(--ink); transition:background .25s ease;
 }
 .call-main:hover{background:var(--green-pale)}
 .call-main:focus-visible{outline:2px solid var(--green); outline-offset:3px}
@@ -223,9 +241,9 @@ body.locked{overflow:hidden}
 .call-alt a{color:var(--green); font-weight:500; text-decoration:none; border-bottom:1px solid var(--gold-soft); white-space:nowrap}
 
 .coords{
-  display:inline-flex; align-items:center; gap:8px; margin-top:16px;
+  display:inline-flex; align-items:center; gap:8px; margin-top:12px;
   font-family:ui-monospace,Consolas,monospace; font-size:12.5px; color:var(--ink-soft);
-  background:var(--cream-2); border:var(--line-soft); border-radius:6px; padding:8px 14px; cursor:pointer;
+  background:var(--cream-2); border:var(--line-soft); border-radius:6px; padding:7px 12px; cursor:pointer;
   transition:background .25s ease;
 }
 .coords:hover{background:var(--green-pale)}
@@ -236,6 +254,7 @@ body.locked{overflow:hidden}
   --ink:#3D4030; --ink-soft:#6E7159; --accent:#6B7A52; --pin:#4F5C3C; --frame:#E4DFCD;
   margin-top:22px; border:var(--line-soft); border-radius:8px;
   background:#FAF8F1; overflow:auto; -webkit-overflow-scrolling:touch;
+  max-height:min(46vh,360px);   /* xem trước — bấm nút bên dưới để phóng to */
 }
 .mapbox svg{display:block; width:100%; height:auto; min-width:660px}
 .map-hint{font-size:12.5px; color:var(--ink-faint); margin-top:12px; line-height:1.6}
@@ -264,11 +283,13 @@ body.locked{overflow:hidden}
 /* ============================================================
    9 · XÁC NHẬN THAM DỰ
    ============================================================ */
-.rsvp-form{display:grid; gap:14px; margin-top:22px; text-align:left}
+.rsvp-form{display:grid; gap:10px; margin-top:14px; text-align:left}
+#rsvp-form{}
+section:has(#rsvp-form) .card{padding:20px 18px}
 .rsvp-form label{font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:-8px}
 .rsvp-form input,.rsvp-form select,.rsvp-form textarea{
   font-family:var(--f-body); font-weight:300; font-size:15px; color:var(--ink);
-  padding:12px 14px; background:var(--cream); border:var(--line-soft); border-radius:6px;
+  padding:10px 13px; background:var(--cream); border:var(--line-soft); border-radius:6px;
   transition:border-color .25s ease;
 }
 .rsvp-form input:focus,.rsvp-form select:focus,.rsvp-form textarea:focus{
@@ -283,7 +304,7 @@ body.locked{overflow:hidden}
 /* ============================================================
    10 · CẢM ƠN · NHẠC · HIỆU ỨNG
    ============================================================ */
-.thanks-sec{padding:56px 0 72px; text-align:center}
+.thanks-sec{text-align:center}
 .thanks-sec .names{font-family:var(--f-script); font-size:clamp(34px,10vw,46px); color:var(--green); line-height:1.25}
 .thanks-sec .names .amp{color:var(--gold)}
 .sign{font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint); margin-top:28px}
@@ -446,7 +467,7 @@ body.locked{overflow:hidden}
   <div class="wrap center">
     <span class="label">Chương trình</span>
     <h2 class="sec-title">Trình tự buổi lễ</h2>
-    <p class="sec-sub">Giờ giấc mang tính tham khảo, có thể xê dịch đôi chút.</p>
+    <p class="sec-sub">Giờ giấc có thể xê dịch đôi chút.</p>
   </div>
   <div class="wrap">
     <ul class="tl" id="timeline"></ul>
@@ -466,7 +487,7 @@ body.locked{overflow:hidden}
 </section>
 
 <!-- ============ 8 · ĐỊA ĐIỂM ============ -->
-<section class="reveal" id="sec-map">
+<section class="reveal" id="sec-venue">
   <div class="wrap center">
     <span class="label">Địa điểm</span>
     <h2 class="sec-title">Nơi tổ chức</h2>
@@ -478,7 +499,17 @@ body.locked{overflow:hidden}
         <a class="btn" id="btn-maps" href="#" target="_blank" rel="noopener">Mở Google Maps</a>
       </div>
       <div class="coords" id="coords" title="Bấm để sao chép toạ độ"><span id="coords-txt">—</span></div>
-      <div class="mapbox" id="mapbox"><style>
+      <div class="callbox" id="callbox"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8b · SƠ ĐỒ ĐƯỜNG ĐI (slide riêng — nhét chung là cao gấp rưỡi màn hình) ============ -->
+<section class="reveal" id="sec-map">
+  <div class="wrap center">
+    <span class="label">Chỉ đường</span>
+    <h2 class="sec-title">Sơ đồ đường đi</h2>
+    <div class="mapbox" id="mapbox"><style>
 /* ===== style của SVG bản đồ (scope trong .mapbox) ===== */
 .mapbox text{font-family:"Segoe UI",Tahoma,sans-serif;fill:var(--ink)}
 .mapbox .ttl{font-family:Cambria,Georgia,serif;font-size:52px;font-weight:700;letter-spacing:2px}
@@ -690,10 +721,8 @@ body.locked{overflow:hidden}
   <text class="scale" x="370" y="48" text-anchor="middle">500 m</text>
 </g>
 </svg></div>
-      <div style="margin-top:14px"><button class="btn ghost" id="map-zoom" type="button">Xem sơ đồ cỡ lớn</button></div>
-      <div class="map-hint" id="map-hint">Chạm vào sơ đồ để mở Google Maps</div>
-      <div class="callbox" id="callbox"></div>
-    </div>
+    <div style="margin-top:16px"><button class="btn ghost" id="map-zoom" type="button">Xem sơ đồ cỡ lớn</button></div>
+    <div class="map-hint" id="map-hint">Chạm vào sơ đồ để mở Google Maps</div>
   </div>
 </section>
 
@@ -702,7 +731,7 @@ body.locked{overflow:hidden}
   <div class="wrap">
     <span class="label">Hồi âm</span>
     <h2 class="sec-title">Xác nhận tham dự</h2>
-    <p class="sec-sub">Để gia đình tiện sắp xếp chỗ ngồi, kính mong Quý khách xác nhận giúp.</p>
+    <p class="sec-sub">Kính mong Quý khách xác nhận giúp gia đình.</p>
     <div class="card">
       <form class="rsvp-form" id="rsvp-form">
         <label for="rs-name">Quý danh</label>
