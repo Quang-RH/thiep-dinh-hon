@@ -15,12 +15,34 @@
  */
 
 /* =========================================================================
-   CẤU HÌNH — sửa 2 dòng này
+   CẤU HÌNH
    ========================================================================= */
-var NOTIFY_EMAIL = "hodacquang8182@gmail.com";   // nơi nhận email báo. Nhiều người: ngăn bằng dấu phẩy.
+// Nơi nhận email báo. Muốn nhiều người thì ngăn bằng dấu phẩy, ví dụ:
+//   "Btnhi95@gmail.com, hodacquang8182@gmail.com"
+var NOTIFY_EMAIL = "Btnhi95@gmail.com";
 var EVENT_NAME   = "Đám hỏi Đắc Quang & Trúc Nhi";
+var EVENT_DATE   = "Chủ Nhật, 20.09.2026";
+var TIMEZONE     = "Asia/Ho_Chi_Minh";
 
 var HEADERS = ['Thời gian', 'Quý danh', 'Tham dự', 'Số người', 'Lời chúc'];
+
+/* -- bảng màu, lấy theo tông thiệp để email và thiệp cùng một bộ -- */
+var C_GREEN = '#6B7A52';
+var C_DARK  = '#4F5C3C';
+var C_GOLD  = '#B89B5E';
+var C_CREAM = '#F6F4EC';
+var C_CRM2  = '#EFECE0';
+var C_LINE  = '#E7E3D3';
+var C_INK   = '#3D4030';
+var C_SOFT  = '#6E7159';
+var C_MISS  = '#A5715E';   // màu cho trường hợp không đến được
+
+/* Font cho email. KHÔNG dùng Georgia: nó THIẾU glyph tiếng Việt precomposed
+   (ế ề ễ) nên "đến" render thành "đế´n" — dấu rời ra, đã kiểm chứng bằng ảnh.
+   Palatino/Times đều có đủ và đều là font sẵn trên máy nên email client nào
+   cũng hiển thị được (webfont thì Gmail lược bỏ). */
+var F_SERIF = "'Palatino Linotype','Book Antiqua',Palatino,'Times New Roman',Times,serif";
+var F_SANS  = "Arial,Helvetica,sans-serif";
 
 function doPost(e) {
   // Khoá: nhiều khách xác nhận cùng lúc thì xếp hàng ghi tuần tự, không đè mất dòng.
@@ -37,8 +59,9 @@ function doPost(e) {
       sheet.setFrozenRows(1);
     }
 
+    var now = new Date();
     sheet.appendRow([
-      new Date(),
+      now,
       data.name    || '',
       data.attend  || '',
       Number(data.guests) || 1,
@@ -49,7 +72,7 @@ function doPost(e) {
     lock.releaseLock();
 
     // Lỗi gửi mail KHÔNG được làm mất dòng đã ghi Sheet.
-    try { notifyOwner(data); } catch (mailErr) { /* bỏ qua */ }
+    try { notifyOwner(data, now, sheet); } catch (mailErr) { /* bỏ qua */ }
 
     return json({ ok: true });
 
@@ -65,46 +88,139 @@ function json(obj) {
                        .setMimeType(ContentService.MimeType.JSON);
 }
 
+/** Đếm tổng số lời nhận + tổng số người, để email nào cũng thấy được bức tranh chung. */
+function tinhTong(sheet) {
+  var t = { nhan: 0, nguoi: 0, tu_choi: 0 };
+  try {
+    var n = sheet.getLastRow();
+    if (n < 2) return t;
+    var rows = sheet.getRange(2, 3, n - 1, 2).getValues();   // cột Tham dự + Số người
+    for (var i = 0; i < rows.length; i++) {
+      var di = String(rows[i][0] || '').toLowerCase().indexOf('không') < 0;
+      if (di) { t.nhan++; t.nguoi += Number(rows[i][1]) || 1; }
+      else    { t.tu_choi++; }
+    }
+  } catch (err) { /* đếm lỗi thì thôi, không được làm chết email */ }
+  return t;
+}
+
 /** Gửi email báo có khách vừa xác nhận. */
-function notifyOwner(data) {
+function notifyOwner(data, when, sheet) {
   if (!NOTIFY_EMAIL) return;
 
   var name   = data.name    || '(không ghi tên)';
   var attend = data.attend  || '';
   var guests = Number(data.guests) || 1;
   var msg    = data.message || '';
+  var luc    = Utilities.formatDate(when || new Date(), TIMEZONE, 'HH:mm · dd/MM/yyyy');
 
-  // Đi hay không đi thì đổi màu cho nhìn phát biết ngay.
-  var di = attend.indexOf('không') < 0;
-  var mau = di ? '#6B7A52' : '#A5715E';
+  var di   = attend.toLowerCase().indexOf('không') < 0;
+  var mau  = di ? C_GREEN : C_MISS;
+  var dau  = di ? '✓' : '✕';
+  var tong = sheet ? tinhTong(sheet) : null;
 
-  var subject = (di ? '✓ ' : '✕ ') + name + ' · ' + attend + ' · ' + guests + ' người';
+  var sheetUrl = '';
+  try { sheetUrl = SpreadsheetApp.getActiveSpreadsheet().getUrl(); } catch (err) {}
+
+  var subject = dau + ' ' + name + ' · ' + (di ? guests + ' người' : 'không đến được');
+
+  // Dòng xem trước trong hộp thư (ẩn trong nội dung email).
+  var preheader = attend + ' · ' + guests + ' người' + (msg ? ' · "' + msg.slice(0, 60) + '"' : '');
+
+  function hang(nhan, giatri) {
+    return '<tr>' +
+      '<td style="padding:9px 0;color:' + C_SOFT + ';font-size:13px;width:120px;' +
+        'border-bottom:1px solid ' + C_LINE + '">' + nhan + '</td>' +
+      '<td style="padding:9px 0;color:' + C_INK + ';font-size:15px;font-weight:bold;' +
+        'border-bottom:1px solid ' + C_LINE + '">' + giatri + '</td>' +
+    '</tr>';
+  }
+
+  var khoiLoiChuc = msg
+    ? '<div style="margin:18px 0 0;padding:14px 16px;background:' + C_CRM2 + ';' +
+        'border-left:3px solid ' + C_GOLD + ';border-radius:0 6px 6px 0">' +
+        '<div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:' + C_GOLD + '">Lời chúc</div>' +
+        '<div style="margin-top:6px;font-family:' + F_SERIF + ';font-style:italic;font-size:15px;' +
+          'line-height:1.6;color:' + C_INK + '">“' + msg + '”</div>' +
+      '</div>'
+    : '';
+
+  var khoiTong = tong
+    ? '<div style="margin:20px 0 0;padding:14px 16px;background:' + C_CREAM + ';' +
+        'border:1px solid ' + C_LINE + ';border-radius:8px">' +
+        '<div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:' + C_SOFT + '">Tổng đến nay</div>' +
+        '<div style="margin-top:6px;font-family:' + F_SERIF + ';font-size:20px;color:' + C_DARK + '">' +
+          '<b>' + tong.nhan + '</b> lời nhận' +
+          ' &nbsp;·&nbsp; <b>' + tong.nguoi + '</b> người' +
+          (tong.tu_choi ? ' &nbsp;·&nbsp; <span style="font-size:15px;color:' + C_MISS + '">' +
+            tong.tu_choi + ' không đến được</span>' : '') +
+        '</div>' +
+      '</div>'
+    : '';
+
+  var nutSheet = sheetUrl
+    ? '<div style="margin:20px 0 0;text-align:center">' +
+        '<a href="' + sheetUrl + '" style="display:inline-block;background:' + C_GREEN + ';color:#ffffff;' +
+          'text-decoration:none;font-size:14px;padding:11px 26px;border-radius:40px">' +
+          'Mở danh sách trong Google Sheet</a>' +
+      '</div>'
+    : '';
 
   var html =
-  '<div style="font-family:Georgia,serif;max-width:520px;margin:0 auto;border:1px solid #E7E3D3;border-radius:12px;overflow:hidden;background:#F6F4EC">' +
-    '<div style="background:' + mau + ';color:#F6F4EC;padding:16px 20px">' +
-      '<div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;opacity:.85">' + EVENT_NAME + '</div>' +
-      '<div style="font-size:20px;font-weight:bold;margin-top:3px">Có khách vừa xác nhận</div>' +
-    '</div>' +
-    '<div style="padding:18px 20px">' +
-      '<table style="width:100%;border-collapse:collapse;font-size:14px;color:#3D4030">' +
-        '<tr><td style="padding:7px 10px;color:#6E7159;width:110px">Quý danh</td>' +
-            '<td style="padding:7px 10px;font-size:17px"><b>' + name + '</b></td></tr>' +
-        '<tr><td style="padding:7px 10px;color:#6E7159">Tham dự</td>' +
-            '<td style="padding:7px 10px;color:' + mau + '"><b>' + attend + '</b></td></tr>' +
-        '<tr><td style="padding:7px 10px;color:#6E7159">Số người</td>' +
-            '<td style="padding:7px 10px"><b>' + guests + '</b></td></tr>' +
-        '<tr><td style="padding:7px 10px;color:#6E7159">Lời chúc</td>' +
-            '<td style="padding:7px 10px;font-style:italic">' + (msg || '—') + '</td></tr>' +
-      '</table>' +
-      '<div style="margin-top:16px;padding:12px;background:#EFECE0;border-radius:8px;font-size:13px;color:#6E7159">' +
-        'Dòng này cũng đã được ghi vào Google Sheet.</div>' +
-    '</div>' +
+  '<div style="margin:0;padding:22px 12px;background:#EDEADE">' +
+    // dòng xem trước, ẩn khỏi nội dung nhìn thấy
+    '<div style="display:none;max-height:0;overflow:hidden;opacity:0">' + preheader + '</div>' +
+    '<table role="presentation" cellpadding="0" cellspacing="0" border="0" ' +
+      'style="max-width:540px;margin:0 auto;width:100%;background:#ffffff;border:1px solid ' + C_LINE + ';' +
+      'border-radius:12px;overflow:hidden">' +
+      '<tr><td style="background:' + mau + ';padding:20px 24px">' +
+        '<div style="font-family:' + F_SANS + ';font-size:11px;letter-spacing:3px;' +
+          'text-transform:uppercase;color:rgba(255,255,255,.8)">' + EVENT_NAME + '</div>' +
+        '<div style="font-family:' + F_SERIF + ';font-size:21px;color:#ffffff;margin-top:5px">' +
+          'Có khách vừa xác nhận</div>' +
+      '</td></tr>' +
+      '<tr><td style="padding:24px">' +
+        // tên + trạng thái
+        '<div style="text-align:center;padding-bottom:20px;border-bottom:1px solid ' + C_LINE + '">' +
+          '<div style="font-family:' + F_SERIF + ';font-size:27px;color:' + C_DARK + ';line-height:1.3">' +
+            name + '</div>' +
+          '<div style="margin-top:10px">' +
+            '<span style="display:inline-block;background:' + mau + ';color:#ffffff;' +
+              'font-family:' + F_SANS + ';font-size:13px;padding:6px 16px;border-radius:40px">' +
+              dau + '&nbsp; ' + attend + '</span>' +
+          '</div>' +
+        '</div>' +
+        // chi tiết
+        '<table role="presentation" cellpadding="0" cellspacing="0" border="0" ' +
+          'style="width:100%;margin-top:8px;font-family:' + F_SANS + '">' +
+          hang('Số người', guests) +
+          hang('Gửi lúc', luc) +
+          hang('Ngày lễ', EVENT_DATE) +
+        '</table>' +
+        khoiLoiChuc +
+        khoiTong +
+        nutSheet +
+      '</td></tr>' +
+      '<tr><td style="background:' + C_CREAM + ';padding:14px 24px;text-align:center;' +
+        'font-family:' + F_SANS + ';font-size:11.5px;color:' + C_SOFT + '">' +
+        'Gửi tự động từ thiệp mời · dòng này cũng đã được ghi vào Google Sheet' +
+      '</td></tr>' +
+    '</table>' +
   '</div>';
+
+  // Bản chữ thuần cho ứng dụng mail không hiện HTML.
+  var plain =
+    dau + ' ' + name + '\n' +
+    attend + ' · ' + guests + ' người\n' +
+    'Gửi lúc: ' + luc + '\n' +
+    (msg ? 'Lời chúc: ' + msg + '\n' : '') +
+    (tong ? '\nTổng đến nay: ' + tong.nhan + ' lời nhận · ' + tong.nguoi + ' người\n' : '') +
+    (sheetUrl ? '\nDanh sách: ' + sheetUrl : '');
 
   MailApp.sendEmail({
     to: NOTIFY_EMAIL,
     subject: subject,
+    body: plain,
     htmlBody: html,
     name: EVENT_NAME
   });
@@ -121,7 +237,7 @@ function testRsvp() {
     name: 'Khách Thử',
     attend: 'Vâng, tôi sẽ đến',
     guests: 2,
-    message: 'Chúc hai bạn trăm năm hạnh phúc!'
+    message: 'Chúc hai bạn trăm năm hạnh phúc, sớm có tin vui!'
   };
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
   if (sheet.getLastRow() === 0) {
@@ -129,8 +245,18 @@ function testRsvp() {
     sheet.getRange(1, 1, 1, HEADERS.length).setFontWeight('bold');
     sheet.setFrozenRows(1);
   }
-  sheet.appendRow([new Date(), demo.name, demo.attend, demo.guests, demo.message]);
-  notifyOwner(demo);
+  var now = new Date();
+  sheet.appendRow([now, demo.name, demo.attend, demo.guests, demo.message]);
+  notifyOwner(demo, now, sheet);
+}
+
+/** Thử riêng email "không đến được" để xem màu/nhãn đổi đúng chưa. */
+function testRsvpVang() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+  notifyOwner({
+    name: 'Khách Vắng', attend: 'Rất tiếc, tôi không đến được',
+    guests: 1, message: 'Xin phép vắng, chúc hai bạn hạnh phúc.'
+  }, new Date(), sheet);
 }
 
 /** (tuỳ chọn) chạy tay 1 lần để tạo dòng tiêu đề đẹp. */

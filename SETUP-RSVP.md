@@ -16,7 +16,7 @@ Kết quả: khách bấm "Gửi xác nhận" → **ghi 1 dòng vào Google Shee
 ## Bước 2 — Dán Apps Script
 1. Trong Sheet đó: **Extensions → Apps Script**.
 2. Xoá hết code mẫu trong `Code.gs`, **dán toàn bộ nội dung [`Code.gs`](Code.gs)** ở folder này.
-3. Kiểm dòng đầu: `NOTIFY_EMAIL` đang là `hodacquang8182@gmail.com` — đổi nếu muốn nhận ở hộp thư khác.
+3. Kiểm dòng đầu: `NOTIFY_EMAIL` đang là `Btnhi95@gmail.com` — thêm người nhận thì ngăn bằng dấu phẩy.
 4. Ctrl+S để lưu.
 
 ## Bước 3 — Deploy thành Web App
@@ -51,7 +51,7 @@ cd C:/QUANG.HO_IT/thiep-dinh-hon && git add -A && git commit -m "chore: noi rsvp
 
 ## Bước 5 — Thử
 **Thử phía Apps Script trước** (loại trừ lỗi mail/quyền):
-- Trong Apps Script, chọn hàm `testRsvp` → **Run**.
+- Trong Apps Script, chọn hàm `testRsvp` → **Run**. (Có thêm `testRsvpVang` để xem mẫu email khi khách báo không đến được.)
 - Sheet phải có 1 dòng mới, hộp thư phải có 1 email. Xong bước này mới sang thiệp.
 
 **Rồi thử phía thiệp:**
