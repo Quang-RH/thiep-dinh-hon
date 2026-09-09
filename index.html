@@ -513,7 +513,7 @@ section:has(#rsvp-form) .card{padding:20px 18px}
         <p class="p" id="groom-dad">Ông Hồ Quang Minh</p>
         <p class="p" id="groom-mom">Bà Nguyễn Mộng Thúy</p>
         <div class="who" id="f-groom">Hồ Đắc Quang</div>
-        <div class="rel">Trưởng nam</div>
+        <div class="rel" id="groom-rel">Trưởng nam</div>
         <div class="addr" id="groom-addr">TP. Hồ Chí Minh</div>
       </div>
       <div class="fam">
@@ -521,7 +521,7 @@ section:has(#rsvp-form) .card{padding:20px 18px}
         <p class="p" id="bride-dad">Ông Bùi Anh Tuấn</p>
         <p class="p" id="bride-mom">Bà Nguyễn Đàm Quỳnh Giao</p>
         <div class="who" id="f-bride">Bùi Trúc Nhi</div>
-        <div class="rel">Ái nữ</div>
+        <div class="rel" id="bride-rel">Trưởng nữ</div>
         <div class="addr" id="bride-addr">Tỉnh Tây Ninh</div>
       </div>
     </div>
@@ -896,6 +896,8 @@ const CONFIG = {
   brideDad:  "Ông Bùi Anh Tuấn",
   brideMom:  "Bà Nguyễn Đàm Quỳnh Giao",
   brideAddr: "Tỉnh Tây Ninh",
+  groomRel:  "Trưởng nam",
+  brideRel:  "Trưởng nữ",
 
   /* --- địa điểm --- */
   venue: {
@@ -991,6 +993,7 @@ const CONFIG = {
   set("groom-dad",C.groomDad); set("groom-mom",C.groomMom); set("groom-addr",C.groomAddr);
   set("bride-dad",C.brideDad); set("bride-mom",C.brideMom); set("bride-addr",C.brideAddr);
   set("f-groom",  C.groomFull); set("f-bride", C.brideFull);
+  set("groom-rel", C.groomRel); set("bride-rel", C.brideRel);
 
   set("venue-name",C.venue.name); set("venue-addr",C.venue.addr); set("venue-when",C.venue.when);
   document.title = `Thiệp Mời Đám Hỏi — ${C.groom} & ${C.bride}`;
