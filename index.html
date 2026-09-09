@@ -782,6 +782,10 @@ section:has(#rsvp-form) .card{padding:20px 18px}
       <div class="rsvp-thanks" id="rsvp-thanks">
         <div class="big">Cảm ơn Quý khách</div>
         <p class="note" style="margin:8px 0 0">Hai đứa đã nhận được lời hồi âm.</p>
+        <p class="note" id="rsvp-fallback" style="display:none;margin:10px 0 0;color:var(--ink-soft)">
+          Đường truyền có vẻ chưa thông — nếu được, xin nhắn giúp hai đứa qua
+          <a href="tel:0906300060" style="color:var(--green);font-weight:500">0906 300 060</a>.
+        </p>
         <svg class="sprig" viewBox="0 0 140 48" aria-hidden="true"><use href="#ic-sprig"/></svg>
       </div>
     </div>
@@ -1261,12 +1265,48 @@ document.getElementById("coords").addEventListener("click",(e)=>{
 document.getElementById("rsvp-form").addEventListener("submit", async (e)=>{
   e.preventDefault();
   const form = e.currentTarget;
-  const data = new FormData(form);
+  const btn  = form.querySelector('button[type="submit"]');
+  const nhan = {
+    name:    (form.elements["name"]    || {}).value || "",
+    attend:  (form.elements["attend"]  || {}).value || "",
+    guests:  (form.elements["guests"]  || {}).value || "1",
+    message: (form.elements["message"] || {}).value || "",
+  };
+
+  const nhanCu = btn ? btn.textContent : "";
+  if(btn){ btn.disabled = true; btn.textContent = "Đang gửi…"; }
+
+  let guiDuoc = false;
   if(CONFIG.rsvpEndpoint){
-    try{ await fetch(CONFIG.rsvpEndpoint,{method:"POST",mode:"no-cors",body:data}); }catch(_){}
+    try{
+      // Content-Type text/plain để KHÔNG kích hoạt CORS preflight —
+      // Apps Script không trả header cho request OPTIONS. Đây là cách
+      // đã chạy tốt ở trang đặt bánh (BA-draft/event_06).
+      await fetch(CONFIG.rsvpEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(nhan),
+      });
+      guiDuoc = true;
+    }catch(err){
+      console.error("Gửi xác nhận thất bại:", err);
+    }
+  } else {
+    console.warn("CONFIG.rsvpEndpoint đang trống — xác nhận KHÔNG được ghi đi đâu.", nhan);
   }
+
+  if(btn){ btn.disabled = false; btn.textContent = nhanCu; }
+
   form.style.display = "none";
-  document.getElementById("rsvp-thanks").classList.add("on");
+  const cam = document.getElementById("rsvp-thanks");
+  cam.classList.add("on");
+
+  // Gửi không được (mất mạng / chưa nối endpoint) thì phải chừa đường lui,
+  // đừng để lời xác nhận của khách rơi vào hư không mà ai cũng tưởng xong.
+  if(!guiDuoc){
+    const lui = document.getElementById("rsvp-fallback");
+    if(lui) lui.style.display = "block";
+  }
   fallLeaves(14);
 });
 </script>
