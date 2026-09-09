@@ -2,344 +2,316 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Thiệp Mời Đám Hỏi — Đắc Quang &amp; Trúc Nhi</title>
-<meta name="description" content="Thiệp mời lễ đính hôn Hồ Đắc Quang & Bùi Trúc Nhi — Chủ Nhật 20.09.2026">
+<meta name="description" content="Trân trọng kính mời tới dự Lễ Đính Hôn — Hồ Đắc Quang & Bùi Trúc Nhi · Chủ Nhật 20.09.2026">
 <meta property="og:title" content="Thiệp Mời Đám Hỏi — Đắc Quang &amp; Trúc Nhi">
 <meta property="og:description" content="Chủ Nhật, 20.09.2026 · 10:00 · Tư gia Nhà Gái, Tây Ninh">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
-   0 · DESIGN TOKENS — bảng màu & thang đo chibi (sửa 1 chỗ, cả trang đổi)
+   0 · BẢNG MÀU & CHỮ — đổi ở đây là đổi tông cả thiệp
+   (dùng chung bộ olive với thiệp cưới web để 2 bản nhìn như một bộ)
    ============================================================ */
 :root{
-  /* giấy & nền */
-  --paper:#FFF8EE;  --paper-2:#FFEFDC;  --paper-3:#FFE4C9;
-  /* màu chủ đạo */
-  --pink:#FF9DB4;   --pink-deep:#E9527C;  --pink-soft:#FFD7E2;
-  --red:#E5384C;    --red-deep:#B8253A;
-  --mint:#9EE3C4;   --mint-deep:#3FA97F;
-  --butter:#FFE08A; --butter-deep:#E9A93C;
-  --sky:#B6DEFF;    --sky-deep:#4B8FD0;
-  --navy:#3E5C8A;   --grape:#B69BE0;
-  /* nét vẽ & chữ */
-  --line:#4A3B32;   --ink:#4A3B32;  --ink-soft:#8A7264;  --ink-faint:#B7A395;
-  /* da & má hồng chibi */
-  --skin:#FFE0C4;   --skin-2:#FFD2AE;  --blush:#FF9DAF;  --hair:#3A2E28;
-  /* hình khối */
-  --r-sm:14px; --r-md:22px; --r-lg:32px;
-  --bw:3px;                                  /* độ dày nét viền */
-  --pop:5px 5px 0 var(--line);               /* bóng cứng kiểu sticker */
-  --pop-sm:3px 3px 0 var(--line);
-  --pop-lift:7px 9px 0 var(--line);
-  --f-title:"Baloo 2","Segoe UI",system-ui,sans-serif;
-  --f-body:"Quicksand","Segoe UI",system-ui,sans-serif;
+  --green:#6B7A52;  --green-dark:#4F5C3C;  --green-soft:#8B9A72;  --green-pale:#E4E8DA;
+  --gold:#B89B5E;   --gold-soft:#D8C89F;
+  --cream:#F6F4EC;  --cream-2:#EFECE0;     --cream-3:#E7E3D3;
+  --ink:#3D4030;    --ink-soft:#6E7159;    --ink-faint:#9B9D86;
+  --white:#FFFFFF;
+
+  --f-script:"Great Vibes",cursive;
+  --f-serif:"Playfair Display",Georgia,serif;
+  --f-body:"Be Vietnam Pro","Segoe UI",system-ui,sans-serif;
+
+  --line-soft:1px solid var(--cream-3);
+  --line-gold:1px solid var(--gold-soft);
+  --shadow:0 12px 34px rgba(61,64,48,.07);
+  --shadow-sm:0 6px 18px rgba(61,64,48,.06);
   --wrap:min(560px,100%);
 }
-*{box-sizing:border-box}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 body{
-  margin:0; font-family:var(--f-body); color:var(--ink); font-size:16px; line-height:1.65;
-  background:var(--paper);
-  background-image:
-    radial-gradient(circle at 12% 8%, rgba(255,157,180,.16) 0 22%, transparent 60%),
-    radial-gradient(circle at 88% 22%, rgba(158,227,196,.18) 0 20%, transparent 58%),
-    radial-gradient(circle at 20% 78%, rgba(255,224,138,.20) 0 24%, transparent 62%),
-    radial-gradient(circle at 84% 94%, rgba(182,222,255,.18) 0 22%, transparent 60%);
-  background-attachment:fixed;
-  overflow-x:hidden;
+  margin:0; font-family:var(--f-body); font-weight:300;
+  color:var(--ink); font-size:15.5px; line-height:1.8;
+  background:var(--cream); overflow-x:hidden;
 }
 img,svg{max-width:100%}
 
 /* ============================================================
-   1 · PRIMITIVE — khối dùng lại: card, pill, btn, tem tiêu đề
+   1 · KHỐI DÙNG LẠI
    ============================================================ */
-.wrap{width:var(--wrap); margin:0 auto; padding:0 18px}
-section{padding:52px 0}
+.wrap{width:var(--wrap); margin:0 auto; padding:0 22px}
+section{padding:58px 0}
 .center{text-align:center}
 
-.card{
-  background:#fff; border:var(--bw) solid var(--line); border-radius:var(--r-lg);
-  box-shadow:var(--pop); padding:24px 20px; position:relative;
+.label{
+  display:block; font-family:var(--f-body); font-weight:500;
+  font-size:11px; letter-spacing:.32em; text-transform:uppercase; color:var(--green);
 }
-.card.tilt-l{transform:rotate(-1.2deg)}
-.card.tilt-r{transform:rotate(1.2deg)}
+h2.sec-title{
+  font-family:var(--f-serif); font-weight:500; font-size:clamp(23px,6vw,29px);
+  color:var(--ink); margin:12px 0 4px; line-height:1.3; text-wrap:balance;
+}
+.sec-sub{color:var(--ink-soft); font-size:14px; margin:6px auto 0; max-width:36ch}
+.note{font-size:13.5px; color:var(--ink-faint); font-style:italic}
 
-.pill{
-  display:inline-flex; align-items:center; gap:7px;
-  background:var(--butter); border:var(--bw) solid var(--line); border-radius:999px;
-  box-shadow:var(--pop-sm); padding:6px 16px;
-  font-family:var(--f-title); font-weight:700; font-size:14px; letter-spacing:.04em;
+.card{
+  background:var(--white); border:var(--line-soft); border-radius:10px;
+  box-shadow:var(--shadow); padding:26px 22px;
 }
-.pill.pink{background:var(--pink-soft)} .pill.mint{background:var(--mint)} .pill.sky{background:var(--sky)}
+
+/* nét chia có nhành ô liu ở giữa */
+.divider{display:flex; align-items:center; justify-content:center; gap:10px; margin:18px 0}
+.divider::before,.divider::after{content:""; height:1px; width:52px; background:var(--gold-soft)}
+.divider .dot{width:5px; height:5px; transform:rotate(45deg); background:var(--gold)}
+.sprig{display:block; width:126px; margin:14px auto 0; opacity:.9}
+.sprig.flip{transform:scaleX(-1)}
+.sprig-pair{display:flex; align-items:center; justify-content:center; gap:12px; margin:16px 0 0}
+.sprig-pair svg{width:96px; opacity:.9}
+.sprig-pair .gem{width:6px; height:6px; transform:rotate(45deg); background:var(--gold); flex:0 0 auto}
 
 .btn{
   display:inline-flex; align-items:center; justify-content:center; gap:9px;
-  font-family:var(--f-title); font-weight:800; font-size:16px; letter-spacing:.02em;
-  padding:13px 26px; border-radius:999px; cursor:pointer; text-decoration:none;
-  background:var(--pink); color:#fff; border:var(--bw) solid var(--line);
-  box-shadow:var(--pop); transition:transform .12s ease, box-shadow .12s ease;
-  -webkit-tap-highlight-color:transparent;
+  font-family:var(--f-body); font-weight:500; font-size:14.5px; letter-spacing:.03em;
+  padding:13px 30px; border-radius:40px; cursor:pointer; text-decoration:none;
+  background:var(--green); color:var(--white); border:1px solid var(--green);
+  box-shadow:0 8px 20px rgba(79,92,60,.22);
+  transition:background .25s ease, transform .2s ease, box-shadow .25s ease;
 }
-.btn:hover{transform:translate(-2px,-2px); box-shadow:var(--pop-lift)}
-.btn:active{transform:translate(3px,3px); box-shadow:1px 1px 0 var(--line)}
-.btn.mint{background:var(--mint-deep)} .btn.sky{background:var(--sky-deep)}
-.btn.butter{background:var(--butter); color:var(--ink)}
-.btn.ghost{background:#fff; color:var(--ink)}
-.btn:focus-visible{outline:3px solid var(--pink-deep); outline-offset:3px}
-
-h2.sec-title{
-  font-family:var(--f-title); font-weight:800; font-size:clamp(22px,6.1vw,30px);
-  margin:14px 0 6px; line-height:1.18; color:var(--ink);
-  text-wrap:balance; overflow-wrap:break-word;
-}
-.sec-sub{color:var(--ink-soft); font-size:15px; margin:0 auto 26px; max-width:34ch}
-.joke{font-size:14px; color:var(--ink-soft); font-style:italic}
+.btn:hover{background:var(--green-dark); transform:translateY(-2px); box-shadow:0 12px 26px rgba(79,92,60,.28)}
+.btn:active{transform:translateY(0)}
+.btn.ghost{background:transparent; color:var(--green-dark); border:1px solid var(--gold-soft); box-shadow:none}
+.btn.ghost:hover{background:var(--cream-2); color:var(--green-dark)}
+.btn:focus-visible{outline:2px solid var(--green); outline-offset:3px}
 
 /* ============================================================
-   2 · CHIBI — khung chứa nhân vật + hiệu ứng nhún nhảy
-   ============================================================ */
-.chibi{display:block; overflow:visible}
-.chibi.bob{animation:bob 3s ease-in-out infinite}
-.chibi.bob-2{animation:bob 3s ease-in-out infinite; animation-delay:-1.5s}
-@keyframes bob{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-9px) rotate(1.5deg)}}
-.tapme{cursor:pointer}
-.tapme.wiggle{animation:wig .55s ease}
-@keyframes wig{0%,100%{transform:rotate(0)}20%{transform:rotate(-11deg) scale(1.06)}55%{transform:rotate(9deg) scale(1.06)}80%{transform:rotate(-4deg)}}
-
-/* bong bóng thoại */
-.bubble{
-  position:relative; display:inline-block; max-width:min(17ch,46vw);
-  background:#fff; border:var(--bw) solid var(--line); border-radius:18px;
-  box-shadow:var(--pop-sm); padding:9px 14px;
-  font-family:var(--f-title); font-weight:600; font-size:14px; line-height:1.4;
-}
-.bubble::after{
-  content:""; position:absolute; bottom:-13px; left:26px;
-  width:0; height:0; border:8px solid transparent;
-  border-top-color:var(--line); border-bottom:0;
-}
-.bubble::before{
-  content:""; position:absolute; bottom:-8px; left:29px; z-index:1;
-  width:0; height:0; border:6px solid transparent; border-top-color:#fff; border-bottom:0;
-}
-.bubble.r::after{left:auto; right:26px} .bubble.r::before{left:auto; right:29px}
-.bubbles{display:flex; justify-content:space-between; gap:10px; margin-bottom:16px; align-items:flex-end}
-
-/* ============================================================
-   3 · PHONG BÌ MỞ THIỆP
+   2 · PHONG BÌ MỞ THIỆP
    ============================================================ */
 #cover{
-  position:fixed; inset:0; z-index:90; display:flex; flex-direction:column;
-  align-items:center; justify-content:center; gap:12px; padding:26px 20px;
-  background:linear-gradient(170deg,var(--paper-2),var(--paper-3));
-  transition:opacity .7s ease, transform .7s ease;
+  position:fixed; inset:0; z-index:100; background:var(--cream);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:30px 24px; gap:2px;
+  transition:opacity .9s ease, visibility .9s;
 }
-#cover.open{opacity:0; transform:scale(1.12) translateY(-14px); pointer-events:none}
-#cover .env{width:min(260px,66vw)}
-#cover .cv-eyebrow{font-family:var(--f-title); font-weight:700; letter-spacing:.3em; font-size:12px; color:var(--ink-soft); text-transform:uppercase}
-#cover .cv-names{font-family:var(--f-title); font-weight:800; font-size:clamp(23px,7vw,32px); line-height:1.14; text-align:center; text-wrap:balance}
-#cover .cv-date{font-family:var(--f-title); font-weight:600; letter-spacing:.22em; color:var(--pink-deep)}
+#cover.open{opacity:0; visibility:hidden; pointer-events:none}
+#cover .env{width:min(232px,60vw); margin:22px auto 20px}
+#cover .cv-names{
+  font-family:var(--f-script); font-size:clamp(34px,10vw,46px);
+  color:var(--green); line-height:1.25; margin-top:4px;
+}
+#cover .cv-names .amp{color:var(--gold)}
+#cover .cv-date{
+  font-family:var(--f-serif); font-size:clamp(13px,3.6vw,15px);
+  letter-spacing:.3em; color:var(--green-dark); margin:6px 0 20px;
+}
 body.locked{overflow:hidden}
 
 /* ============================================================
-   4 · HERO
+   3 · MỞ ĐẦU
    ============================================================ */
-.hero{padding:34px 0 10px; position:relative}
-.hero .duo{display:flex; align-items:flex-end; justify-content:center; gap:0}
-.hero .duo .chibi{width:min(150px,39vw)}
-.hero .heart{width:40px; margin:0 -6px 62px; animation:beat 1.5s ease-in-out infinite}
-@keyframes beat{0%,100%{transform:scale(1)}30%{transform:scale(1.22)}45%{transform:scale(1)}60%{transform:scale(1.14)}}
-.hero .names{font-family:var(--f-title); font-weight:800; font-size:clamp(25px,7.4vw,36px); line-height:1.14; margin-top:8px; text-wrap:balance; overflow-wrap:break-word}
-.hero .amp{color:var(--pink-deep)}
-.hero .kicker{font-family:var(--f-title); font-weight:700; letter-spacing:.28em; font-size:12px; color:var(--ink-soft); text-transform:uppercase}
+.hero{padding:56px 0 12px; text-align:center}
+.hero .names{
+  font-family:var(--f-script); font-size:clamp(36px,12.5vw,56px);
+  color:var(--green); line-height:1.06; margin:16px 0 0; font-weight:400;
+}
+/* xếp 3 dòng: tên / & / tên — khỏi rớt dòng lung tung, mà cũng đúng kiểu thiệp */
+.hero .names span{display:block}
+.hero .names .amp{color:var(--gold); font-size:.5em; line-height:1.5}
+/* Thứ đứng riêng 1 dòng, hàng dưới chỉ còn 3 ô — để 4 ô là tràn ở máy 360px */
+.hero .dow{
+  margin-top:22px; font-size:11px; letter-spacing:.3em;
+  text-transform:uppercase; color:var(--ink-soft);
+}
 .hero .datebox{
-  display:inline-flex; align-items:center; gap:14px; margin-top:16px;
-  background:#fff; border:var(--bw) solid var(--line); border-radius:var(--r-md);
-  box-shadow:var(--pop); padding:10px 18px; font-family:var(--f-title); font-weight:700;
+  display:inline-flex; align-items:stretch; gap:0; margin-top:8px;
+  border-top:var(--line-gold); border-bottom:var(--line-gold); padding:13px 0;
 }
-.hero .datebox .d{font-size:30px; line-height:1; color:var(--pink-deep)}
-.hero .datebox .m{font-size:13px; letter-spacing:.14em; color:var(--ink-soft); text-align:left}
-.hero .lunar{font-size:13px; color:var(--ink-soft); margin-top:10px}
+.hero .datebox .cell{padding:0 clamp(12px,4.2vw,22px); display:flex; flex-direction:column; justify-content:center}
+.hero .datebox .cell + .cell{border-left:var(--line-gold)}
+.hero .datebox .big{font-family:var(--f-serif); font-size:clamp(25px,7vw,31px); color:var(--green-dark); line-height:1.15; white-space:nowrap}
+.hero .datebox .sm{font-size:clamp(10px,2.9vw,11px); letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); white-space:nowrap}
+.hero .lunar{font-size:13px; color:var(--ink-faint); margin-top:14px; font-style:italic}
 
 /* ============================================================
-   5 · ĐẾM NGƯỢC
+   4 · ĐẾM NGƯỢC
    ============================================================ */
-.cd{display:flex; gap:9px; justify-content:center; flex-wrap:wrap; margin:6px 0 12px}
+.cd{display:flex; gap:10px; justify-content:center; margin:22px 0 4px}
 .cd .box{
-  min-width:70px; background:#fff; border:var(--bw) solid var(--line);
-  border-radius:var(--r-md); box-shadow:var(--pop-sm); padding:11px 6px;
+  flex:1 1 0; max-width:88px; padding:14px 4px;
+  background:var(--white); border:var(--line-soft); border-radius:8px;
 }
-.cd .box:nth-child(1){background:var(--pink-soft)}
-.cd .box:nth-child(2){background:var(--butter)}
-.cd .box:nth-child(3){background:var(--mint)}
-.cd .box:nth-child(4){background:var(--sky)}
-.cd .n{font-family:var(--f-title); font-weight:800; font-size:28px; line-height:1}
-.cd .l{font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); font-weight:700}
+.cd .n{font-family:var(--f-serif); font-size:26px; color:var(--green-dark); line-height:1.1}
+.cd .l{font-size:10.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-faint); margin-top:3px}
 
 /* ============================================================
-   6 · HAI HỌ
+   5 · HAI HỌ
    ============================================================ */
-.fams{display:grid; gap:18px}
-@media(min-width:520px){.fams{grid-template-columns:1fr 1fr}}
-.fam{background:#fff; border:var(--bw) solid var(--line); border-radius:var(--r-lg); box-shadow:var(--pop); padding:18px 16px; text-align:center}
-.fam .tag{
-  display:inline-block; font-family:var(--f-title); font-weight:800; font-size:13px; letter-spacing:.16em;
-  border:var(--bw) solid var(--line); border-radius:999px; padding:3px 14px; margin-bottom:10px;
+.fams{display:grid; gap:20px; margin-top:26px}
+@media(min-width:560px){.fams{grid-template-columns:1fr 1fr}}
+.fam{
+  background:var(--white); border:var(--line-soft); border-radius:10px;
+  box-shadow:var(--shadow-sm); padding:26px 20px; text-align:center;
 }
-.fam.trai .tag{background:var(--sky)} .fam.gai .tag{background:var(--pink-soft)}
-.fam .pair{display:flex; justify-content:center; gap:0}
-.fam .pair .chibi{width:78px}
-.fam .who{font-family:var(--f-title); font-weight:800; font-size:19px; margin-top:8px}
-.fam .p{font-size:14.5px; color:var(--ink-soft); margin:2px 0}
-.fam .addr{font-size:13px; color:var(--ink-faint); margin-top:6px}
+.fam .tag{font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--gold); font-weight:500}
+.fam .p{font-size:15px; color:var(--ink-soft); margin:4px 0}
+.fam .who{font-family:var(--f-script); font-size:31px; color:var(--green); line-height:1.35; margin-top:10px}
+.fam .rel{font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-faint)}
+.fam .addr{font-size:13px; color:var(--ink-faint); margin-top:10px; font-style:italic}
 
 /* ============================================================
-   7 · TIMELINE CHƯƠNG TRÌNH
+   6 · CHƯƠNG TRÌNH
    ============================================================ */
-.tl{list-style:none; margin:0; padding:0; position:relative}
-.tl::before{content:""; position:absolute; left:27px; top:14px; bottom:14px; width:var(--bw); background:var(--line); border-radius:2px; opacity:.22}
-.tl li{display:flex; gap:14px; align-items:flex-start; padding:9px 0; position:relative}
-.tl .dot{
-  flex:0 0 56px; height:56px; border-radius:50%; background:var(--butter);
-  border:var(--bw) solid var(--line); box-shadow:var(--pop-sm);
-  display:grid; place-items:center; font-size:24px; position:relative; z-index:1;
+.tl{list-style:none; margin:26px 0 0; padding:0; position:relative}
+.tl::before{content:""; position:absolute; left:64px; top:10px; bottom:10px; width:1px; background:var(--cream-3)}
+.tl li{display:flex; gap:22px; align-items:flex-start; padding:13px 0; position:relative}
+.tl .h{
+  flex:0 0 52px; text-align:right; font-family:var(--f-serif);
+  font-size:15px; color:var(--green-dark); padding-top:1px;
 }
-.tl li:nth-child(2n) .dot{background:var(--pink-soft)}
-.tl li:nth-child(3n) .dot{background:var(--mint)}
-.tl .txt{padding-top:4px}
-.tl .t{font-family:var(--f-title); font-weight:800; font-size:16.5px}
-.tl .h{font-size:13px; font-weight:700; color:var(--pink-deep); letter-spacing:.06em}
-.tl .n{font-size:13.5px; color:var(--ink-soft)}
+.tl .bullet{
+  position:absolute; left:61px; top:22px; width:7px; height:7px;
+  border-radius:50%; background:var(--cream); border:1px solid var(--gold); z-index:1;
+}
+.tl li:nth-child(3) .bullet, .tl li:nth-child(5) .bullet{background:var(--gold)}
+.tl .txt{flex:1 1 auto; padding-left:6px}
+.tl .t{font-family:var(--f-serif); font-size:16.5px; color:var(--ink); line-height:1.4}
+.tl .n{font-size:13.5px; color:var(--ink-soft); line-height:1.6}
 
 /* ============================================================
-   8 · ĐỘI HÌNH MÂM QUẢ
+   7 · MÂM QUẢ
    ============================================================ */
-.trays{display:grid; grid-template-columns:repeat(2,1fr); gap:12px}
-@media(min-width:480px){.trays{grid-template-columns:repeat(3,1fr)}}
-.tray{
-  background:#fff; border:var(--bw) solid var(--line); border-radius:var(--r-md);
-  box-shadow:var(--pop-sm); padding:12px 8px 14px; text-align:center;
+.trays{margin-top:24px; border-top:var(--line-soft)}
+.tray{display:flex; gap:16px; align-items:baseline; padding:15px 4px; border-bottom:var(--line-soft)}
+.tray .no{
+  flex:0 0 auto; font-family:var(--f-serif); font-size:13px; color:var(--gold);
+  letter-spacing:.1em; min-width:22px;
 }
-.tray .chibi{width:66px; margin:0 auto}
-.tray .nm{font-family:var(--f-title); font-weight:800; font-size:14px; margin-top:4px}
-.tray .nt{font-size:11.5px; color:var(--ink-soft); line-height:1.4}
+.tray .nm{font-family:var(--f-serif); font-size:16.5px; color:var(--ink)}
+.tray .nt{font-size:13.5px; color:var(--ink-soft); line-height:1.6}
 
 /* ============================================================
-   9 · ĐỊA ĐIỂM + BẢN ĐỒ
+   8 · ĐỊA ĐIỂM + BẢN ĐỒ
    ============================================================ */
-.venue{background:#fff; border:var(--bw) solid var(--line); border-radius:var(--r-lg); box-shadow:var(--pop); padding:22px 18px; text-align:center}
-.venue .vn{font-family:var(--f-title); font-weight:800; font-size:23px}
-.venue .va{color:var(--ink-soft); font-size:15px; margin-top:4px}
-.venue .acts{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:16px}
-/* khối gọi hỏi đường — số chính nổi bật, số phụ nhỏ bên dưới */
-.callbox{margin-top:18px}
-.callbox .lead{
-  font-family:var(--f-title); font-weight:700; font-size:12px; letter-spacing:.14em;
-  text-transform:uppercase; color:var(--ink-soft); margin-bottom:10px;
+.venue{
+  background:var(--white); border:var(--line-soft); border-radius:10px;
+  box-shadow:var(--shadow); padding:30px 22px; text-align:center; margin-top:24px;
 }
+.venue .vn{font-family:var(--f-serif); font-size:24px; color:var(--green-dark); line-height:1.35}
+.venue .va{color:var(--ink-soft); font-size:14.5px; margin-top:8px}
+.venue .vw{font-family:var(--f-serif); font-size:15px; color:var(--gold); margin-top:12px; letter-spacing:.04em}
+.venue .acts{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:22px}
+
+/* gọi hỏi đường — số chính nổi, số phụ nhỏ */
+.callbox{margin-top:26px; padding-top:24px; border-top:var(--line-soft)}
+.callbox .lead{font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:12px}
 .call-main{
-  display:inline-flex; align-items:center; gap:12px; text-decoration:none; color:var(--ink);
-  background:var(--butter); border:var(--bw) solid var(--line); border-radius:var(--r-md);
-  box-shadow:var(--pop); padding:11px 20px 11px 16px;
-  transition:transform .12s ease, box-shadow .12s ease;
+  display:inline-flex; align-items:center; gap:14px; text-decoration:none;
+  background:var(--cream-2); border:var(--line-gold); border-radius:8px;
+  padding:14px 24px; color:var(--ink); transition:background .25s ease;
 }
-.call-main:hover{transform:translate(-2px,-2px); box-shadow:var(--pop-lift)}
-.call-main:active{transform:translate(3px,3px); box-shadow:1px 1px 0 var(--line)}
-.call-main:focus-visible{outline:3px solid var(--pink-deep); outline-offset:3px}
-.call-main .ico{font-size:24px; line-height:1}
-.call-main .txt{text-align:left; line-height:1.25}
-.call-main .who{font-family:var(--f-title); font-weight:700; font-size:12.5px; color:var(--ink-soft)}
-.call-main .num{font-family:var(--f-title); font-weight:800; font-size:22px; letter-spacing:.01em; white-space:nowrap}
-.call-alt{margin-top:11px; font-size:13.5px; color:var(--ink-soft)}
-.call-alt a{
-  color:var(--pink-deep); font-weight:700; text-decoration:none;
-  border-bottom:2px dotted var(--pink); white-space:nowrap;
-}
+.call-main:hover{background:var(--green-pale)}
+.call-main:focus-visible{outline:2px solid var(--green); outline-offset:3px}
+.call-main .txt{text-align:left; line-height:1.35}
+.call-main .who{font-size:12px; letter-spacing:.08em; color:var(--ink-soft)}
+.call-main .num{font-family:var(--f-serif); font-size:23px; color:var(--green-dark); letter-spacing:.02em; white-space:nowrap}
+.call-alt{margin-top:13px; font-size:13.5px; color:var(--ink-soft)}
+.call-alt a{color:var(--green); font-weight:500; text-decoration:none; border-bottom:1px solid var(--gold-soft); white-space:nowrap}
+
 .coords{
-  display:inline-flex; align-items:center; gap:8px; margin-top:12px;
-  font-family:ui-monospace,Consolas,monospace; font-size:13.5px; font-weight:700; color:var(--ink);
-  background:var(--paper-2); border:2px dashed var(--line); border-radius:var(--r-sm);
-  padding:7px 13px; cursor:pointer;
+  display:inline-flex; align-items:center; gap:8px; margin-top:16px;
+  font-family:ui-monospace,Consolas,monospace; font-size:12.5px; color:var(--ink-soft);
+  background:var(--cream-2); border:var(--line-soft); border-radius:6px; padding:8px 14px; cursor:pointer;
+  transition:background .25s ease;
 }
-.coords.done{background:var(--mint)}
+.coords:hover{background:var(--green-pale)}
 .mapbox{
   /* palette riêng cho SVG bản đồ — biến CSS kế thừa xuống, không đụng token trang */
-  --paper:#FFFBF3; --grid:#F5E6D6; --road:#FFFFFF; --road-line:#E7D3BE;
-  --hwy-line:#DCC4AC; --median:#DDEFE2; --median-line:#9ED0B0;
-  --ink:#4A3B32; --ink-soft:#8A7264; --accent:#E9527C; --pin:#E5384C; --frame:#F0DFCB;
-  margin-top:18px; border:var(--bw) solid var(--line); border-radius:var(--r-md);
-  box-shadow:var(--pop-sm); background:#FFFBF3; overflow:auto; -webkit-overflow-scrolling:touch;
+  --paper:#FAF8F1; --grid:#E9E5D7; --road:#FFFFFF; --road-line:#DDD8C6;
+  --hwy-line:#D2CCB8; --median:#E2E7D6; --median-line:#AEB894;
+  --ink:#3D4030; --ink-soft:#6E7159; --accent:#6B7A52; --pin:#4F5C3C; --frame:#E4DFCD;
+  margin-top:22px; border:var(--line-soft); border-radius:8px;
+  background:#FAF8F1; overflow:auto; -webkit-overflow-scrolling:touch;
 }
 .mapbox svg{display:block; width:100%; height:auto; min-width:660px}
-.map-hint{font-size:12.5px; color:var(--ink-faint); margin-top:8px}
+.map-hint{font-size:12.5px; color:var(--ink-faint); margin-top:12px; line-height:1.6}
 
 /* xem sơ đồ toàn màn hình */
-#mapview{position:fixed; inset:0; z-index:120; display:none; background:rgba(46,36,30,.95)}
+#mapview{position:fixed; inset:0; z-index:120; display:none; background:rgba(45,48,36,.96)}
 #mapview.on{display:flex; flex-direction:column}
-#mapview .mv-bar{display:flex; align-items:center; gap:8px; padding:10px 12px; flex:0 0 auto}
+#mapview .mv-bar{display:flex; align-items:center; gap:9px; padding:12px 14px; flex:0 0 auto}
 #mapview .mv-ttl{
-  color:#FFF3E2; font-family:var(--f-title); font-weight:700; font-size:13.5px;
-  margin-right:auto; line-height:1.3;
+  color:var(--cream); font-family:var(--f-serif); font-size:14px;
+  margin-right:auto; line-height:1.4; font-weight:400;
 }
+#mapview .mv-ttl small{display:block; font-family:var(--f-body); font-size:11.5px; opacity:.7; letter-spacing:.06em}
 #mapview .mv-btn{
-  flex:0 0 auto; width:44px; height:44px; border-radius:50%; cursor:pointer;
-  font-family:var(--f-title); font-weight:800; font-size:20px; line-height:1;
-  background:#fff; color:var(--ink); border:var(--bw) solid var(--line);
-  box-shadow:var(--pop-sm); display:grid; place-items:center;
+  flex:0 0 auto; width:42px; height:42px; border-radius:50%; cursor:pointer;
+  font-family:var(--f-serif); font-size:19px; line-height:1;
+  background:var(--cream); color:var(--ink); border:1px solid var(--gold-soft);
+  display:grid; place-items:center; transition:background .2s ease;
 }
-#mapview .mv-btn:active{transform:translate(2px,2px); box-shadow:1px 1px 0 var(--line)}
-#mapview .mv-scroll{flex:1 1 auto; overflow:auto; -webkit-overflow-scrolling:touch; padding:0 10px 14px}
-/* mượn luôn class .mapbox để clone thừa hưởng palette + cỡ chữ của sơ đồ,
-   rồi ghi đè phần khung cho vừa chế độ toàn màn hình */
-#mapview .mv-scroll.mapbox{margin:0; border:0; border-radius:0; box-shadow:none; background:transparent}
-#mapview .mv-scroll.mapbox svg{min-width:0; height:auto; background:#FFFBF3; border-radius:var(--r-sm)}
+#mapview .mv-btn:hover{background:var(--green-pale)}
+#mapview .mv-scroll{flex:1 1 auto; overflow:auto; -webkit-overflow-scrolling:touch; padding:0 12px 16px}
+/* mượn class .mapbox để clone thừa hưởng palette + cỡ chữ, rồi bỏ phần khung */
+#mapview .mv-scroll.mapbox{margin:0; border:0; border-radius:0; background:transparent}
+#mapview .mv-scroll.mapbox svg{min-width:0; height:auto; background:#FAF8F1; border-radius:6px}
 
 /* ============================================================
-   10 · RSVP
+   9 · XÁC NHẬN THAM DỰ
    ============================================================ */
-.rsvp-form{display:grid; gap:11px; margin-top:16px; text-align:left}
-.rsvp-form label{font-family:var(--f-title); font-weight:700; font-size:13.5px; margin-bottom:-6px}
+.rsvp-form{display:grid; gap:14px; margin-top:22px; text-align:left}
+.rsvp-form label{font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:-8px}
 .rsvp-form input,.rsvp-form select,.rsvp-form textarea{
-  font-family:var(--f-body); font-size:15.5px; color:var(--ink);
-  padding:11px 14px; background:#fff;
-  border:var(--bw) solid var(--line); border-radius:var(--r-sm); box-shadow:var(--pop-sm);
+  font-family:var(--f-body); font-weight:300; font-size:15px; color:var(--ink);
+  padding:12px 14px; background:var(--cream); border:var(--line-soft); border-radius:6px;
+  transition:border-color .25s ease;
 }
-.rsvp-form input:focus,.rsvp-form select:focus,.rsvp-form textarea:focus{outline:3px solid var(--pink); outline-offset:1px}
-.rsvp-thanks{display:none; margin-top:16px}
-.rsvp-thanks.on{display:block; animation:pop .45s ease}
-@keyframes pop{from{transform:scale(.8); opacity:0}to{transform:scale(1); opacity:1}}
+.rsvp-form input:focus,.rsvp-form select:focus,.rsvp-form textarea:focus{
+  outline:none; border-color:var(--green-soft); background:var(--white);
+}
+.rsvp-form .btn{margin-top:6px; justify-self:center}
+.rsvp-thanks{display:none; text-align:center}
+.rsvp-thanks.on{display:block; animation:fadeUp .7s ease}
+@keyframes fadeUp{from{opacity:0; transform:translateY(14px)}to{opacity:1; transform:none}}
+.rsvp-thanks .big{font-family:var(--f-script); font-size:34px; color:var(--green); line-height:1.35}
 
 /* ============================================================
-   11 · CẢM ƠN + NÚT NHẠC + HIỆU ỨNG
+   10 · CẢM ƠN · NHẠC · HIỆU ỨNG
    ============================================================ */
-.thanks-sec{padding:44px 0 64px; text-align:center}
-.thanks-sec .names{font-family:var(--f-title); font-weight:800; font-size:clamp(22px,6.6vw,30px); text-wrap:balance}
-.sign{font-size:13px; color:var(--ink-faint); margin-top:24px}
+.thanks-sec{padding:56px 0 72px; text-align:center}
+.thanks-sec .names{font-family:var(--f-script); font-size:clamp(34px,10vw,46px); color:var(--green); line-height:1.25}
+.thanks-sec .names .amp{color:var(--gold)}
+.sign{font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint); margin-top:28px}
 
 #music-btn{
-  position:fixed; right:14px; bottom:14px; z-index:80; display:none;
-  width:50px; height:50px; border-radius:50%; font-size:21px; cursor:pointer;
-  background:#fff; border:var(--bw) solid var(--line); box-shadow:var(--pop-sm);
+  position:fixed; right:18px; bottom:18px; z-index:90; display:none;
+  width:46px; height:46px; border-radius:50%; cursor:pointer; font-size:17px;
+  background:var(--green); color:var(--white); border:none;
+  box-shadow:0 8px 20px rgba(79,92,60,.3);
   align-items:center; justify-content:center;
 }
-#music-btn.spin{animation:spin 3.2s linear infinite; background:var(--butter)}
-/* trình duyệt chặn tự phát -> nút nhấp nháy để khách biết có nhạc mà bấm */
-#music-btn.hint{background:var(--pink-soft); animation:hintPulse 1.5s ease-in-out infinite}
-@keyframes hintPulse{
-  0%,100%{transform:scale(1);   box-shadow:var(--pop-sm)}
-  50%    {transform:scale(1.12);box-shadow:5px 5px 0 var(--line)}
-}
-@keyframes spin{to{transform:rotate(360deg)}}
+#music-btn.spin{animation:rot 4s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+#music-btn.hint{background:var(--gold); animation:hintPulse 1.8s ease-in-out infinite}
+@keyframes hintPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.13)}}
 
-.reveal{opacity:0; transform:translateY(26px); transition:opacity .65s ease, transform .65s ease}
+.reveal{opacity:0; transform:translateY(28px); transition:opacity .9s ease, transform .9s ease}
 .reveal.in{opacity:1; transform:none}
-#confetti{position:fixed; inset:0; pointer-events:none; z-index:70}
-#confetti span{position:absolute; top:-8vh; font-size:18px; animation:fall linear forwards}
-@keyframes fall{to{transform:translateY(112vh) rotate(420deg); opacity:.15}}
+
+/* lá ô liu rơi nhẹ khi mở thiệp */
+#petals{position:fixed; inset:0; pointer-events:none; z-index:80; overflow:hidden}
+#petals i{
+  position:absolute; top:-5vh; display:block;
+  width:13px; height:7px; border-radius:50% 0 50% 0;
+  background:var(--green-soft); opacity:.5; animation:fall linear forwards;
+}
+@keyframes fall{to{transform:translateY(110vh) rotate(400deg); opacity:0}}
+
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important; transition:none!important}
   .reveal{opacity:1; transform:none}
@@ -348,239 +320,63 @@ body.locked{overflow:hidden}
 </head>
 <body class="locked">
 <!-- ============================================================
-     SPRITE SHEET — bộ nhân vật chibi. Vẽ 1 lần, dùng lại bằng <use>.
-     Quy ước: người = viewBox 0 0 120 170 · đầu tâm (60,56) bán kính 30.
+     HOẠ TIẾT — nhành ô liu & phong bì, vẽ 1 lần dùng lại bằng <use>
      ============================================================ -->
-<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
 <defs>
-  <!-- ---- mảnh dùng chung ---- -->
-  <g id="ears">
-    <circle cx="30" cy="60" r="7" fill="var(--skin-2)" stroke="var(--line)" stroke-width="3"/>
-    <circle cx="90" cy="60" r="7" fill="var(--skin-2)" stroke="var(--line)" stroke-width="3"/>
-  </g>
-  <circle id="head" cx="60" cy="56" r="30" fill="var(--skin)" stroke="var(--line)" stroke-width="3"/>
-  <g id="face">
-    <ellipse cx="49" cy="59" rx="4.6" ry="6.3" fill="var(--line)"/>
-    <ellipse cx="71" cy="59" rx="4.6" ry="6.3" fill="var(--line)"/>
-    <circle cx="47.4" cy="56.4" r="1.9" fill="#fff"/>
-    <circle cx="69.4" cy="56.4" r="1.9" fill="#fff"/>
-    <ellipse cx="40" cy="68" rx="6.2" ry="3.5" fill="var(--blush)" opacity=".8"/>
-    <ellipse cx="80" cy="68" rx="6.2" ry="3.5" fill="var(--blush)" opacity=".8"/>
-    <path d="M54,70 q6,5.6 12,0" fill="none" stroke="var(--line)" stroke-width="2.6" stroke-linecap="round"/>
-  </g>
-  <g id="face-wink">
-    <path d="M44,59 q5,-6 10,0" fill="none" stroke="var(--line)" stroke-width="3" stroke-linecap="round"/>
-    <ellipse cx="71" cy="59" rx="4.6" ry="6.3" fill="var(--line)"/>
-    <circle cx="69.4" cy="56.4" r="1.9" fill="#fff"/>
-    <ellipse cx="40" cy="68" rx="6.2" ry="3.5" fill="var(--blush)" opacity=".8"/>
-    <ellipse cx="80" cy="68" rx="6.2" ry="3.5" fill="var(--blush)" opacity=".8"/>
-    <path d="M53,69 q7,7 14,-1" fill="none" stroke="var(--line)" stroke-width="2.6" stroke-linecap="round"/>
-  </g>
-  <ellipse id="shadow" cx="60" cy="163" rx="30" ry="5.5" fill="#4A3B32" opacity=".13"/>
-
-  <!-- ======================= CHÚ RỂ — áo dài nam + khăn xếp ======================= -->
-  <symbol id="c-groom" viewBox="0 0 120 170">
-    <use href="#shadow"/>
-    <!-- giày -->
-    <rect x="43" y="147" width="16" height="12" rx="6" fill="#3C3226" stroke="var(--line)" stroke-width="3"/>
-    <rect x="61" y="147" width="16" height="12" rx="6" fill="#3C3226" stroke="var(--line)" stroke-width="3"/>
-    <!-- áo dài (vẽ TRƯỚC tay, để tay nằm ngoài thân) -->
-    <path d="M43,92 Q60,83 77,92 L86,148 Q60,155 34,148 Z"
-          fill="#3E5C8A" stroke="var(--line)" stroke-width="3" stroke-linejoin="round"/>
-    <path d="M60,96 L60,150" stroke="#E9C86A" stroke-width="2.6"/>
-    <circle cx="60" cy="108" r="2.6" fill="#E9C86A"/><circle cx="60" cy="124" r="2.6" fill="#E9C86A"/>
-    <path d="M36,140 Q60,146 84,140" fill="none" stroke="#E9C86A" stroke-width="2.6"/>
-    <!-- tay (viền + thân) + bàn tay -->
-    <path d="M45,99 L36,132" stroke="var(--line)" stroke-width="17" stroke-linecap="round"/>
-    <path d="M75,99 L84,132" stroke="var(--line)" stroke-width="17" stroke-linecap="round"/>
-    <path d="M45,99 L36,132" stroke="#3E5C8A" stroke-width="11" stroke-linecap="round"/>
-    <path d="M75,99 L84,132" stroke="#3E5C8A" stroke-width="11" stroke-linecap="round"/>
-    <circle cx="35" cy="137" r="7" fill="var(--skin)" stroke="var(--line)" stroke-width="3"/>
-    <circle cx="85" cy="137" r="7" fill="var(--skin)" stroke="var(--line)" stroke-width="3"/>
-    <!-- cổ đứng -->
-    <path d="M49,90 Q60,99 71,90 L71,84 Q60,92 49,84 Z" fill="#E9C86A" stroke="var(--line)" stroke-width="3" stroke-linejoin="round"/>
-    <!-- đầu -->
-    <use href="#ears"/>
-    <use href="#head"/>
-    <path d="M31,54 A29,29 0 0 1 89,54 Q78,45 60,45 Q42,45 31,54 Z" fill="var(--hair)" stroke="var(--line)" stroke-width="3" stroke-linejoin="round"/>
-    <!-- khăn xếp (2 vành + phù hiệu) -->
-    <path d="M29,49 C29,10 91,10 91,49 C76,39 44,39 29,49 Z" fill="#2F4A73" stroke="var(--line)" stroke-width="3" stroke-linejoin="round"/>
-    <path d="M32,43 Q60,32 88,43" fill="none" stroke="#E9C86A" stroke-width="2.8"/>
-    <path d="M36,31 Q60,22 84,31" fill="none" stroke="#E9C86A" stroke-width="2.4" opacity=".85"/>
-    <circle cx="60" cy="21" r="4.4" fill="#E9C86A" stroke="var(--line)" stroke-width="2.4"/>
-    <use href="#face"/>
-  </symbol>
-
-  <!-- ======================= CÔ DÂU — áo dài đỏ + khăn đóng ======================= -->
-  <symbol id="c-bride" viewBox="0 0 120 170">
-    <use href="#shadow"/>
-    <rect x="44" y="148" width="15" height="11" rx="5.5" fill="#B8253A" stroke="var(--line)" stroke-width="3"/>
-    <rect x="61" y="148" width="15" height="11" rx="5.5" fill="#B8253A" stroke="var(--line)" stroke-width="3"/>
-    <!-- áo dài (vẽ TRƯỚC tay) -->
-    <path d="M43,93 Q60,84 77,93 L84,149 Q60,156 36,149 Z"
-          fill="#E5384C" stroke="var(--line)" stroke-width="3" stroke-linejoin="round"/>
-    <path d="M60,97 L60,151" stroke="#FFD98A" stroke-width="2.4" opacity=".9"/>
-    <path d="M38,141 Q60,147 82,141" fill="none" stroke="#FFD98A" stroke-width="2.6"/>
-    <!-- tay chụm trước bụng -->
-    <path d="M45,101 Q43,122 54,129" stroke="var(--line)" stroke-width="16" fill="none" stroke-linecap="round"/>
-    <path d="M75,101 Q77,122 66,129" stroke="var(--line)" stroke-width="16" fill="none" stroke-linecap="round"/>
-    <path d="M45,101 Q43,122 54,129" stroke="#E5384C" stroke-width="10" fill="none" stroke-linecap="round"/>
-    <path d="M75,101 Q77,122 66,129" stroke="#E5384C" stroke-width="10" fill="none" stroke-linecap="round"/>
-    <path d="M49,91 Q60,100 71,91 L71,85 Q60,93 49,85 Z" fill="#FFD98A" stroke="var(--line)" stroke-width="3" stroke-linejoin="round"/>
-    <!-- bó hoa nằm gọn trong hai bàn tay -->
-    <path d="M55,136 L52,147 M65,136 L68,147 M60,136 L60,148" stroke="#3FA97F" stroke-width="3" stroke-linecap="round"/>
-    <path d="M49,142 q-7,3 -3,8 q6,1 7,-6 Z" fill="#3FA97F" stroke="var(--line)" stroke-width="2"/>
-    <path d="M71,142 q7,3 3,8 q-6,1 -7,-6 Z" fill="#3FA97F" stroke="var(--line)" stroke-width="2"/>
-    <circle cx="51" cy="134" r="6.2" fill="#FF9DB4" stroke="var(--line)" stroke-width="2.6"/>
-    <circle cx="69" cy="134" r="6.2" fill="#FFD7E2" stroke="var(--line)" stroke-width="2.6"/>
-    <circle cx="60" cy="130" r="6.8" fill="#FFE08A" stroke="var(--line)" stroke-width="2.6"/>
-    <!-- tóc + đầu -->
-    <path d="M28,86 Q26,58 34,48 Q60,36 86,48 Q94,58 92,86 Q84,74 82,56 Q60,46 38,56 Q36,74 28,86 Z"
-          fill="var(--hair)" stroke="var(--line)" stroke-width="3" stroke-linejoin="round"/>
-    <use href="#ears"/>
-    <use href="#head"/>
-    <path d="M31,54 A29,29 0 0 1 89,54 Q78,44 60,44 Q42,44 31,54 Z" fill="var(--hair)" stroke="var(--line)" stroke-width="3" stroke-linejoin="round"/>
-    <!-- khăn đóng -->
-    <path d="M29,48 C29,19 91,19 91,48 C76,38 44,38 29,48 Z" fill="#E5384C" stroke="var(--line)" stroke-width="3" stroke-linejoin="round"/>
-    <path d="M32,43 Q60,32 88,43" fill="none" stroke="#FFD98A" stroke-width="2.8"/>
-    <g transform="translate(60,29)">
-      <circle r="3.2" fill="#FFD98A" stroke="var(--line)" stroke-width="2"/>
-      <circle cx="-7" cy="1" r="3.2" fill="#FFD98A" stroke="var(--line)" stroke-width="2"/>
-      <circle cx="7" cy="1" r="3.2" fill="#FFD98A" stroke="var(--line)" stroke-width="2"/>
+  <symbol id="ic-sprig" viewBox="0 0 140 48">
+    <path d="M5,42 C36,38 78,27 135,6" fill="none" stroke="var(--green-soft)" stroke-width="1.4" stroke-linecap="round"/>
+    <g fill="var(--green)" opacity=".82">
+      <ellipse cx="22" cy="31" rx="10"  ry="4.2" transform="rotate(-22 22 31)"/>
+      <ellipse cx="31" cy="42" rx="9"   ry="3.8" transform="rotate(20 31 42)"/>
+      <ellipse cx="49" cy="25" rx="10"  ry="4.2" transform="rotate(-24 49 25)"/>
+      <ellipse cx="58" cy="35" rx="9"   ry="3.8" transform="rotate(18 58 35)"/>
+      <ellipse cx="77" cy="18" rx="9.5" ry="4"   transform="rotate(-26 77 18)"/>
+      <ellipse cx="86" cy="28" rx="8.5" ry="3.6" transform="rotate(16 86 28)"/>
+      <ellipse cx="105" cy="12" rx="9"  ry="3.8" transform="rotate(-28 105 12)"/>
+      <ellipse cx="113" cy="21" rx="8"  ry="3.4" transform="rotate(14 113 21)"/>
     </g>
-    <circle cx="30" cy="72" r="3" fill="#FFD98A" stroke="var(--line)" stroke-width="2"/>
-    <circle cx="90" cy="72" r="3" fill="#FFD98A" stroke="var(--line)" stroke-width="2"/>
-    <use href="#face"/>
+    <circle cx="67" cy="28" r="2.4" fill="var(--gold)"/>
+    <circle cx="95" cy="21" r="2"   fill="var(--gold)"/>
   </symbol>
 
-  <!-- ======================= ÔNG (bố) ======================= -->
-  <symbol id="c-ong" viewBox="0 0 120 170">
-    <use href="#shadow"/>
-    <rect x="43" y="147" width="16" height="12" rx="6" fill="#3C3226" stroke="var(--line)" stroke-width="3"/>
-    <rect x="61" y="147" width="16" height="12" rx="6" fill="#3C3226" stroke="var(--line)" stroke-width="3"/>
-    <path d="M43,92 Q60,83 77,92 L85,148 Q60,155 35,148 Z" fill="#7C6046" stroke="var(--line)" stroke-width="3" stroke-linejoin="round"/>
-    <path d="M60,96 L60,150" stroke="#D9BE8A" stroke-width="2.4"/>
-    <path d="M45,99 L37,131" stroke="var(--line)" stroke-width="16" stroke-linecap="round"/>
-    <path d="M75,99 L83,131" stroke="var(--line)" stroke-width="16" stroke-linecap="round"/>
-    <path d="M45,99 L37,131" stroke="#7C6046" stroke-width="10" stroke-linecap="round"/>
-    <path d="M75,99 L83,131" stroke="#7C6046" stroke-width="10" stroke-linecap="round"/>
-    <circle cx="36" cy="136" r="6.6" fill="var(--skin)" stroke="var(--line)" stroke-width="3"/>
-    <circle cx="84" cy="136" r="6.6" fill="var(--skin)" stroke="var(--line)" stroke-width="3"/>
-    <path d="M49,90 Q60,99 71,90 L71,84 Q60,92 49,84 Z" fill="#D9BE8A" stroke="var(--line)" stroke-width="3" stroke-linejoin="round"/>
-    <use href="#ears"/>
-    <use href="#head"/>
-    <path d="M31,54 A29,29 0 0 1 89,54 Q78,46 60,46 Q42,46 31,54 Z" fill="#DCD5CB" stroke="var(--line)" stroke-width="3" stroke-linejoin="round"/>
-    <!-- kính -->
-    <g fill="none" stroke="var(--line)" stroke-width="2.6">
-      <circle cx="49" cy="59" r="8"/><circle cx="71" cy="59" r="8"/><path d="M57,59 h6"/>
+  <symbol id="ic-envelope" viewBox="0 0 240 170">
+    <rect x="5" y="5" width="230" height="160" rx="7" fill="var(--cream-2)" stroke="var(--gold-soft)" stroke-width="1.5"/>
+    <path d="M5,13 L120,98 L235,13" fill="none" stroke="var(--gold-soft)" stroke-width="1.5" stroke-linejoin="round"/>
+    <path d="M5,160 L98,86 M235,160 L142,86" fill="none" stroke="var(--cream-3)" stroke-width="1.2"/>
+    <g transform="translate(120,96)">
+      <circle r="24" fill="var(--green)"/>
+      <circle r="24" fill="none" stroke="var(--gold-soft)" stroke-width="1"/>
+      <text y="8" text-anchor="middle" font-family="Great Vibes,cursive" font-size="21" fill="var(--cream)">Q&amp;N</text>
     </g>
-    <circle cx="49" cy="59" r="3.4" fill="var(--line)"/><circle cx="71" cy="59" r="3.4" fill="var(--line)"/>
-    <ellipse cx="38" cy="68" rx="5" ry="3" fill="var(--blush)" opacity=".7"/>
-    <ellipse cx="82" cy="68" rx="5" ry="3" fill="var(--blush)" opacity=".7"/>
-    <path d="M54,72 q6,5 12,0" fill="none" stroke="var(--line)" stroke-width="2.6" stroke-linecap="round"/>
-  </symbol>
-
-  <!-- ======================= BÀ (mẹ) ======================= -->
-  <symbol id="c-ba" viewBox="0 0 120 170">
-    <use href="#shadow"/>
-    <rect x="44" y="148" width="15" height="11" rx="5.5" fill="#6E5C7E" stroke="var(--line)" stroke-width="3"/>
-    <rect x="61" y="148" width="15" height="11" rx="5.5" fill="#6E5C7E" stroke="var(--line)" stroke-width="3"/>
-    <path d="M43,93 Q60,84 77,93 L84,149 Q60,156 36,149 Z" fill="#B69BE0" stroke="var(--line)" stroke-width="3" stroke-linejoin="round"/>
-    <path d="M38,141 Q60,147 82,141" fill="none" stroke="#F0E4FF" stroke-width="2.6"/>
-    <path d="M45,101 Q43,121 54,128" stroke="var(--line)" stroke-width="15" fill="none" stroke-linecap="round"/>
-    <path d="M75,101 Q77,121 66,128" stroke="var(--line)" stroke-width="15" fill="none" stroke-linecap="round"/>
-    <path d="M45,101 Q43,121 54,128" stroke="#B69BE0" stroke-width="9.4" fill="none" stroke-linecap="round"/>
-    <path d="M75,101 Q77,121 66,128" stroke="#B69BE0" stroke-width="9.4" fill="none" stroke-linecap="round"/>
-    <circle cx="55" cy="131" r="5.6" fill="var(--skin)" stroke="var(--line)" stroke-width="2.6"/>
-    <circle cx="65" cy="131" r="5.6" fill="var(--skin)" stroke="var(--line)" stroke-width="2.6"/>
-    <path d="M49,91 Q60,100 71,91 L71,85 Q60,93 49,85 Z" fill="#F0E4FF" stroke="var(--line)" stroke-width="3" stroke-linejoin="round"/>
-    <!-- tóc bạc + búi -->
-    <circle cx="60" cy="24" r="10" fill="#DCD5CB" stroke="var(--line)" stroke-width="3"/>
-    <use href="#ears"/>
-    <use href="#head"/>
-    <path d="M29,66 Q28,48 36,42 Q60,32 84,42 Q92,48 91,66 Q84,56 80,50 Q60,42 40,50 Q36,56 29,66 Z"
-          fill="#DCD5CB" stroke="var(--line)" stroke-width="3" stroke-linejoin="round"/>
-    <use href="#face"/>
-  </symbol>
-
-  <!-- ======================= NGƯỜI BÊ MÂM QUẢ ======================= -->
-  <symbol id="c-bearer" viewBox="0 0 120 170">
-    <use href="#shadow"/>
-    <rect x="44" y="148" width="15" height="11" rx="5.5" fill="#B8253A" stroke="var(--line)" stroke-width="3"/>
-    <rect x="61" y="148" width="15" height="11" rx="5.5" fill="#B8253A" stroke="var(--line)" stroke-width="3"/>
-    <path d="M43,93 Q60,84 77,93 L84,149 Q60,156 36,149 Z" fill="#E5384C" stroke="var(--line)" stroke-width="3" stroke-linejoin="round"/>
-    <path d="M49,91 Q60,100 71,91 L71,85 Q60,93 49,85 Z" fill="#FFD98A" stroke="var(--line)" stroke-width="3" stroke-linejoin="round"/>
-    <!-- tay đưa ra hai bên đỡ vành mâm -->
-    <path d="M45,102 Q34,112 25,119" stroke="var(--line)" stroke-width="15" fill="none" stroke-linecap="round"/>
-    <path d="M75,102 Q86,112 95,119" stroke="var(--line)" stroke-width="15" fill="none" stroke-linecap="round"/>
-    <path d="M45,102 Q34,112 25,119" stroke="#E5384C" stroke-width="9.4" fill="none" stroke-linecap="round"/>
-    <path d="M75,102 Q86,112 95,119" stroke="#E5384C" stroke-width="9.4" fill="none" stroke-linecap="round"/>
-    <!-- mâm quả phủ khăn đỏ: vòm + vành + nơ tim vàng -->
-    <path d="M25,124 C25,96 95,96 95,124 Z" fill="#D22B41" stroke="var(--line)" stroke-width="3" stroke-linejoin="round"/>
-    <path d="M31,115 Q60,106 89,115" fill="none" stroke="#FFD98A" stroke-width="2.8"/>
-    <ellipse cx="60" cy="125" rx="37" ry="7.5" fill="#B8253A" stroke="var(--line)" stroke-width="3"/>
-    <path d="M60,105 c-4.5,-7 -8,-10.5 -8,-15 a8,8 0 0 1 16,0 c0,4.5 -3.5,8 -8,15 z"
-          fill="#FFD98A" stroke="var(--line)" stroke-width="2.4" transform="translate(0,-2)"/>
-    <!-- đầu -->
-    <use href="#ears"/>
-    <use href="#head"/>
-    <path d="M31,54 A29,29 0 0 1 89,54 Q78,44 60,44 Q42,44 31,54 Z" fill="var(--hair)" stroke="var(--line)" stroke-width="3" stroke-linejoin="round"/>
-    <use href="#face"/>
-  </symbol>
-
-  <!-- ======================= PHỤ KIỆN ======================= -->
-  <symbol id="ic-heart" viewBox="0 0 100 92">
-    <path d="M50,88 C18,64 4,48 4,32 A28,28 0 0 1 50,14 A28,28 0 0 1 96,32 C96,48 82,64 50,88 Z"
-          fill="var(--pink)" stroke="var(--line)" stroke-width="5" stroke-linejoin="round"/>
-    <ellipse cx="30" cy="34" rx="8" ry="5" fill="#fff" opacity=".65" transform="rotate(-25 30 34)"/>
-  </symbol>
-
-  <symbol id="ic-envelope" viewBox="0 0 220 174">
-    <!-- lưng phong bì -->
-    <rect x="6" y="46" width="208" height="120" rx="16" fill="#FFE9D2" stroke="var(--line)" stroke-width="5"/>
-    <!-- tấm thiệp nhô lên khỏi phong bì -->
-    <rect x="34" y="6" width="152" height="106" rx="12" fill="#fff" stroke="var(--line)" stroke-width="5"/>
-    <text x="110" y="34" text-anchor="middle" font-family="Baloo 2,sans-serif" font-size="21" font-weight="800" fill="var(--pink-deep)">Đám Hỏi</text>
-    <g transform="translate(64,40) scale(.44)"><use href="#c-groom" width="120" height="170"/></g>
-    <g transform="translate(104,40) scale(.44)"><use href="#c-bride" width="120" height="170"/></g>
-    <!-- mặt trước phong bì: mép trên hình chữ V nên thiệp lộ nửa trên -->
-    <path d="M6,62 L110,134 L214,62 L214,150 a16,16 0 0 1 -16,16 H22 a16,16 0 0 1 -16,-16 Z"
-          fill="#FFF3E2" stroke="var(--line)" stroke-width="5" stroke-linejoin="round"/>
-    <!-- tim niêm phong ở đáy chữ V -->
-    <g transform="translate(110,132) scale(.3)"><use href="#ic-heart" x="-50" y="-46" width="100" height="92"/></g>
   </symbol>
 </defs>
 </svg>
 
-<!-- ============ 1 · PHONG BÌ MỞ THIỆP ============ -->
+<!-- ============ 1 · PHONG BÌ ============ -->
 <div id="cover">
-  <div class="cv-eyebrow">Thiệp mời đám hỏi</div>
-  <svg class="env chibi bob" viewBox="0 0 220 174"><use href="#ic-envelope"/></svg>
+  <span class="label">Thiệp mời</span>
+  <svg class="env" viewBox="0 0 240 170" aria-hidden="true"><use href="#ic-envelope"/></svg>
   <div class="cv-names" id="cv-names">Đắc Quang <span class="amp">&amp;</span> Trúc Nhi</div>
   <div class="cv-date" id="cv-date">20 . 09 . 2026</div>
-  <button class="btn" id="open-btn">💌 Mở thiệp ra coi</button>
-  <div class="joke">Cảnh báo: mở ra rồi là phải đi nha 😌</div>
+  <button class="btn" id="open-btn">Mở thiệp mời</button>
 </div>
 
-<!-- ============ 2 · HERO ============ -->
-<header class="hero center">
+<!-- ============ 2 · MỞ ĐẦU ============ -->
+<header class="hero">
   <div class="wrap">
-    <span class="pill pink">💗 Sắp có chuyện vui</span>
-    <div class="bubbles" style="margin-top:20px">
-      <div class="bubble">Ba mẹ ơi, con đi hỏi vợ nha!</div>
-      <div class="bubble r">Nhớ mang mâm quả cho đủ đó 👀</div>
-    </div>
-    <div class="duo">
-      <svg class="chibi bob tapme" viewBox="0 0 120 170" role="img" aria-label="Chú rể chibi"><use href="#c-groom"/></svg>
-      <svg class="heart" viewBox="0 0 100 92" aria-hidden="true"><use href="#ic-heart"/></svg>
-      <svg class="chibi bob-2 tapme" viewBox="0 0 120 170" role="img" aria-label="Cô dâu chibi"><use href="#c-bride"/></svg>
-    </div>
-    <div class="kicker" style="margin-top:14px">Lễ đính hôn</div>
+    <span class="label">Lễ Đính Hôn</span>
     <h1 class="names"><span id="h-groom">Đắc Quang</span> <span class="amp">&amp;</span> <span id="h-bride">Trúc Nhi</span></h1>
+    <div class="sprig-pair">
+      <svg viewBox="0 0 140 48" aria-hidden="true"><use href="#ic-sprig"/></svg>
+      <span class="gem"></span>
+      <svg viewBox="0 0 140 48" class="sprig flip" style="margin:0" aria-hidden="true"><use href="#ic-sprig"/></svg>
+    </div>
+    <div class="dow" id="h-dow">Chủ Nhật</div>
     <div class="datebox">
-      <div class="d" id="h-day">20</div>
-      <div class="m"><div id="h-month">THÁNG 9 · 2026</div><div id="h-dow">CHỦ NHẬT</div></div>
-      <div class="d" id="h-time">10:00</div>
+      <div class="cell"><span class="big" id="h-day">20</span></div>
+      <div class="cell"><span class="sm" id="h-month">Tháng 9</span><span class="sm" id="h-year">2026</span></div>
+      <div class="cell"><span class="big" id="h-time">10:00</span></div>
     </div>
     <div class="lunar" id="h-lunar">Nhằm ngày 10 tháng 8 năm Bính Ngọ</div>
   </div>
@@ -589,14 +385,16 @@ body.locked{overflow:hidden}
 <!-- ============ 3 · LỜI MỜI ============ -->
 <section class="center reveal">
   <div class="wrap">
-    <span class="pill">📖 Chuyện là…</span>
-    <div class="card tilt-l" style="margin-top:18px;text-align:left">
-      <p style="margin:0 0 12px">Sau một thời gian dài <b>“tìm hiểu”</b> — thật ra là rủ nhau ăn uống khắp Sài Gòn —
-      hai đứa quyết định <b>chốt đơn</b>.</p>
-      <p style="margin:0 0 12px">Nhà trai xin phép mang mâm quả sang nhà gái,
-      kèm theo một đội bạn bè ăn rất khỏe. 🍚</p>
-      <p style="margin:0"><b>Trân trọng kính mời</b> Quý khách cùng hai họ đến chung vui,
-      chứng kiến khoảnh khắc hai đứa chính thức “có chủ”.</p>
+    <span class="label">Đôi lời</span>
+    <h2 class="sec-title">Trân trọng kính mời</h2>
+    <div class="divider"><span class="dot"></span></div>
+    <div class="card" style="text-align:left">
+      <p style="margin:0 0 14px">Sau những năm tháng cùng nhau đi qua bao buồn vui,
+      hai chúng con đã quyết định về chung một nhà.</p>
+      <p style="margin:0 0 14px">Nhà trai xin phép sang thưa chuyện cùng nhà gái,
+      để đôi trẻ chính thức nên duyên trước sự chứng giám của tổ tiên hai họ.</p>
+      <p style="margin:0">Kính mong Quý khách cùng gia quyến sắp xếp thời gian
+      đến chung vui và chứng kiến giây phút ấy.</p>
     </div>
   </div>
 </section>
@@ -604,93 +402,82 @@ body.locked{overflow:hidden}
 <!-- ============ 4 · ĐẾM NGƯỢC ============ -->
 <section class="center reveal">
   <div class="wrap">
-    <span class="pill mint">⏰ Còn bao lâu nữa?</span>
-    <h2 class="sec-title">Đếm ngược tới ngày hỏi</h2>
+    <span class="label">Còn lại</span>
+    <h2 class="sec-title">Đếm ngược đến ngày vui</h2>
     <div class="cd">
       <div class="box"><div class="n" id="cd-d">00</div><div class="l">Ngày</div></div>
       <div class="box"><div class="n" id="cd-h">00</div><div class="l">Giờ</div></div>
       <div class="box"><div class="n" id="cd-m">00</div><div class="l">Phút</div></div>
       <div class="box"><div class="n" id="cd-s">00</div><div class="l">Giây</div></div>
     </div>
-    <div class="joke">Vừa đủ để chú rể tập nói “Dạ, thưa hai bác” cho tròn vành rõ chữ.</div>
+    <svg class="sprig" viewBox="0 0 140 48" aria-hidden="true"><use href="#ic-sprig"/></svg>
   </div>
 </section>
 
 <!-- ============ 5 · HAI HỌ ============ -->
 <section class="center reveal">
   <div class="wrap">
-    <span class="pill sky">👨‍👩‍👦 Hai họ</span>
+    <span class="label">Hai họ</span>
     <h2 class="sec-title">Nhà trai &amp; Nhà gái</h2>
-    <p class="sec-sub">Hai bên phụ huynh — những người thật sự cầm trịch buổi lễ.</p>
+    <div class="divider"><span class="dot"></span></div>
     <div class="fams">
-      <div class="fam trai">
-        <span class="tag">NHÀ TRAI</span>
-        <div class="pair">
-          <svg class="chibi" viewBox="0 0 120 170" role="img" aria-label="Bố chú rể"><use href="#c-ong"/></svg>
-          <svg class="chibi" viewBox="0 0 120 170" role="img" aria-label="Mẹ chú rể"><use href="#c-ba"/></svg>
-        </div>
+      <div class="fam">
+        <div class="tag">Nhà Trai</div>
         <p class="p" id="groom-dad">Ông Hồ Quang Minh</p>
         <p class="p" id="groom-mom">Bà Nguyễn Mộng Thúy</p>
         <div class="who" id="f-groom">Hồ Đắc Quang</div>
-        <div class="p" style="font-size:13px">— Con trai —</div>
+        <div class="rel">Trưởng nam</div>
         <div class="addr" id="groom-addr">TP. Hồ Chí Minh</div>
       </div>
-      <div class="fam gai">
-        <span class="tag">NHÀ GÁI</span>
-        <div class="pair">
-          <svg class="chibi" viewBox="0 0 120 170" role="img" aria-label="Bố cô dâu"><use href="#c-ong"/></svg>
-          <svg class="chibi" viewBox="0 0 120 170" role="img" aria-label="Mẹ cô dâu"><use href="#c-ba"/></svg>
-        </div>
+      <div class="fam">
+        <div class="tag">Nhà Gái</div>
         <p class="p" id="bride-dad">Ông Bùi Anh Tuấn</p>
         <p class="p" id="bride-mom">Bà Nguyễn Đàm Quỳnh Giao</p>
         <div class="who" id="f-bride">Bùi Trúc Nhi</div>
-        <div class="p" style="font-size:13px">— Con gái —</div>
+        <div class="rel">Ái nữ</div>
         <div class="addr" id="bride-addr">Tỉnh Tây Ninh</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 6 · CHƯƠNG TRÌNH LỄ ============ -->
+<!-- ============ 6 · CHƯƠNG TRÌNH ============ -->
 <section class="reveal">
   <div class="wrap center">
-    <span class="pill">🗓️ Chương trình</span>
-    <h2 class="sec-title">Ngày hôm đó diễn ra thế nào?</h2>
-    <p class="sec-sub">Giờ giấc tham khảo — nhà trai đi xa nên có thể xê dịch.</p>
+    <span class="label">Chương trình</span>
+    <h2 class="sec-title">Trình tự buổi lễ</h2>
+    <p class="sec-sub">Giờ giấc mang tính tham khảo, có thể xê dịch đôi chút.</p>
   </div>
   <div class="wrap">
-    <div class="card" style="padding:18px 16px">
-      <ul class="tl" id="timeline"></ul>
-    </div>
+    <ul class="tl" id="timeline"></ul>
   </div>
 </section>
 
-<!-- ============ 7 · ĐỘI HÌNH MÂM QUẢ ============ -->
+<!-- ============ 7 · MÂM QUẢ ============ -->
 <section class="reveal">
   <div class="wrap center">
-    <span class="pill pink">🎁 Đội hình mâm quả</span>
-    <h2 class="sec-title">Sáu mâm, sáu nhiệm vụ</h2>
-    <p class="sec-sub">Nhà trai vận chuyển. Nhà gái kiểm đếm. Ai cũng có việc.</p>
+    <span class="label">Lễ vật</span>
+    <h2 class="sec-title">Sáu mâm quả</h2>
+    <p class="sec-sub">Lễ vật nhà trai mang sang, theo đúng phong tục truyền thống.</p>
+  </div>
+  <div class="wrap">
     <div class="trays" id="trays"></div>
-    <div class="joke" style="margin-top:16px">Đội bê mâm nhớ đi <b>đều bước</b> — có người quay phim đó.</div>
   </div>
 </section>
 
-<!-- ============ 8 · ĐỊA ĐIỂM + BẢN ĐỒ ============ -->
+<!-- ============ 8 · ĐỊA ĐIỂM ============ -->
 <section class="reveal" id="sec-map">
   <div class="wrap center">
-    <span class="pill mint">📍 Địa điểm</span>
-    <h2 class="sec-title">Tới đây nha!</h2>
+    <span class="label">Địa điểm</span>
+    <h2 class="sec-title">Nơi tổ chức</h2>
     <div class="venue">
-      <svg class="chibi" style="width:78px;margin:0 auto -6px" viewBox="0 0 120 170" aria-hidden="true"><use href="#c-bearer"/></svg>
       <div class="vn" id="venue-name">Tư Gia Nhà Gái</div>
       <div class="va" id="venue-addr">Tỉnh Tây Ninh</div>
-      <div class="va" id="venue-when" style="font-weight:700;color:var(--pink-deep)">10:00 · Chủ Nhật, 20.09.2026</div>
+      <div class="vw" id="venue-when">10:00 · Chủ Nhật, 20.09.2026</div>
       <div class="acts">
-        <a class="btn mint" id="btn-maps" href="#" target="_blank" rel="noopener">🗺️ Mở Google Maps</a>
+        <a class="btn" id="btn-maps" href="#" target="_blank" rel="noopener">Mở Google Maps</a>
       </div>
-      <div class="callbox" id="callbox"></div>
-      <div class="coords" id="coords" title="Bấm để copy tọa độ">📌 <span id="coords-txt">—</span></div>
+      <div class="coords" id="coords" title="Bấm để sao chép toạ độ"><span id="coords-txt">—</span></div>
       <div class="mapbox" id="mapbox"><style>
 /* ===== style của SVG bản đồ (scope trong .mapbox) ===== */
 .mapbox text{font-family:"Segoe UI",Tahoma,sans-serif;fill:var(--ink)}
@@ -903,38 +690,39 @@ body.locked{overflow:hidden}
   <text class="scale" x="370" y="48" text-anchor="middle">500 m</text>
 </g>
 </svg></div>
-      <div style="margin-top:12px"><button class="btn butter" id="map-zoom" type="button">🔍 Xem sơ đồ cỡ lớn</button></div>
-      <div class="map-hint" id="map-hint">Bấm vào sơ đồ để mở Google Maps · bấm nút trên để phóng to xem rõ</div>
+      <div style="margin-top:14px"><button class="btn ghost" id="map-zoom" type="button">Xem sơ đồ cỡ lớn</button></div>
+      <div class="map-hint" id="map-hint">Chạm vào sơ đồ để mở Google Maps</div>
+      <div class="callbox" id="callbox"></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 9 · XÁC NHẬN THAM DỰ ============ -->
-<section class="reveal center">
+<!-- ============ 9 · XÁC NHẬN ============ -->
+<section class="center reveal">
   <div class="wrap">
-    <span class="pill butter">🙋 Xác nhận</span>
-    <h2 class="sec-title">Cho hai đứa biết trước nha</h2>
-    <p class="sec-sub">Để nhà gái tính số bàn — thiếu ghế là tội của bạn đó 😅</p>
-    <div class="card tilt-r">
+    <span class="label">Hồi âm</span>
+    <h2 class="sec-title">Xác nhận tham dự</h2>
+    <p class="sec-sub">Để gia đình tiện sắp xếp chỗ ngồi, kính mong Quý khách xác nhận giúp.</p>
+    <div class="card">
       <form class="rsvp-form" id="rsvp-form">
-        <label for="rs-name">Tên bạn</label>
+        <label for="rs-name">Quý danh</label>
         <input id="rs-name" name="name" required placeholder="Vd: Nguyễn Văn A">
-        <label for="rs-go">Bạn có tới không?</label>
+        <label for="rs-go">Quý khách có đến được không</label>
         <select id="rs-go" name="attend">
-          <option value="Có, chắc chắn đi!">Có, chắc chắn đi! 🎉</option>
-          <option value="Có, nhưng tới muộn">Có, nhưng tới muộn 🏃</option>
-          <option value="Rất tiếc, không đi được">Rất tiếc, không đi được 😢</option>
+          <option value="Vâng, tôi sẽ đến">Vâng, tôi sẽ đến</option>
+          <option value="Tôi sẽ đến, nhưng có thể muộn">Tôi sẽ đến, nhưng có thể muộn</option>
+          <option value="Rất tiếc, tôi không đến được">Rất tiếc, tôi không đến được</option>
         </select>
-        <label for="rs-num">Đi mấy người?</label>
+        <label for="rs-num">Số người tham dự</label>
         <input id="rs-num" name="guests" type="number" min="1" max="20" value="1">
-        <label for="rs-msg">Lời chúc (hoặc lời trêu)</label>
-        <textarea id="rs-msg" name="message" rows="3" placeholder="Viết gì cũng được, hai đứa đọc hết…"></textarea>
-        <button class="btn" type="submit">💌 Gửi xác nhận</button>
+        <label for="rs-msg">Lời chúc gửi đôi trẻ</label>
+        <textarea id="rs-msg" name="message" rows="3" placeholder="Đôi lời nhắn gửi…"></textarea>
+        <button class="btn" type="submit">Gửi xác nhận</button>
       </form>
       <div class="rsvp-thanks" id="rsvp-thanks">
-        <svg class="chibi bob" style="width:96px;margin:0 auto" viewBox="0 0 120 170" aria-hidden="true"><use href="#c-bride"/></svg>
-        <div style="font-family:var(--f-title);font-weight:800;font-size:19px">Nhận được rồi, cảm ơn bạn! 💗</div>
-        <div class="joke">Hẹn gặp ở mâm quả số 5 (xôi &amp; gà).</div>
+        <div class="big">Cảm ơn Quý khách</div>
+        <p class="note" style="margin:8px 0 0">Hai đứa đã nhận được lời hồi âm.</p>
+        <svg class="sprig" viewBox="0 0 140 48" aria-hidden="true"><use href="#ic-sprig"/></svg>
       </div>
     </div>
   </div>
@@ -943,13 +731,15 @@ body.locked{overflow:hidden}
 <!-- ============ 10 · CẢM ƠN ============ -->
 <section class="thanks-sec">
   <div class="wrap">
-    <div class="duo" style="display:flex;justify-content:center;align-items:flex-end">
-      <svg class="chibi bob tapme" style="width:104px" viewBox="0 0 120 170" aria-hidden="true"><use href="#c-groom"/></svg>
-      <svg class="chibi bob-2 tapme" style="width:104px" viewBox="0 0 120 170" aria-hidden="true"><use href="#c-bride"/></svg>
+    <div class="sprig-pair">
+      <svg viewBox="0 0 140 48" aria-hidden="true"><use href="#ic-sprig"/></svg>
+      <span class="gem"></span>
+      <svg viewBox="0 0 140 48" class="flip" aria-hidden="true"><use href="#ic-sprig"/></svg>
     </div>
-    <div style="font-family:var(--f-title);font-weight:700;letter-spacing:.2em;font-size:12px;color:var(--ink-soft);margin-top:10px">TRÂN TRỌNG CẢM ƠN</div>
-    <div class="names" id="t-names">Đắc Quang &amp; Trúc Nhi</div>
-    <p class="joke" style="max-width:30ch;margin:10px auto 0">Sự có mặt của Quý khách là món quà lớn nhất của hai đứa.</p>
+    <span class="label" style="margin-top:20px">Trân trọng cảm ơn</span>
+    <div class="names" id="t-names">Đắc Quang <span class="amp">&amp;</span> Trúc Nhi</div>
+    <p class="note" style="max-width:32ch; margin:12px auto 0">
+      Sự hiện diện của Quý khách là niềm vinh hạnh của gia đình chúng tôi.</p>
     <div class="sign">Thiệp mời đám hỏi · <span id="t-date">20.09.2026</span></div>
   </div>
 </section>
@@ -957,17 +747,17 @@ body.locked{overflow:hidden}
 <!-- ============ SƠ ĐỒ TOÀN MÀN HÌNH ============ -->
 <div id="mapview" role="dialog" aria-modal="true" aria-label="Sơ đồ đường đi cỡ lớn">
   <div class="mv-bar">
-    <div class="mv-ttl">Sơ đồ đường đi<br><span style="font-weight:500;opacity:.75">Kéo để di chuyển · dùng − + để phóng</span></div>
+    <div class="mv-ttl">Sơ đồ đường đi<small>Kéo để di chuyển · dùng − + để phóng</small></div>
     <button class="mv-btn mv-out" type="button" aria-label="Thu nhỏ">−</button>
     <button class="mv-btn mv-in" type="button" aria-label="Phóng to">+</button>
-    <button class="mv-btn mv-close" type="button" aria-label="Đóng">✕</button>
+    <button class="mv-btn mv-close" type="button" aria-label="Đóng">×</button>
   </div>
   <div class="mv-scroll mapbox"></div>
 </div>
 
-<button id="music-btn" title="Bật/tắt nhạc" aria-label="Bật tắt nhạc">🎵</button>
+<button id="music-btn" title="Bật/tắt nhạc" aria-label="Bật tắt nhạc">♪</button>
 <audio id="bg-music" loop preload="auto"></audio>
-<div id="confetti" aria-hidden="true"></div>
+<div id="petals" aria-hidden="true"></div>
 <script>
 /* ============================================================
    ⚙️ CONFIG — SỬA MỌI THÔNG TIN Ở ĐÂY, KHÔNG CẦN ĐỤNG PHẦN DƯỚI
@@ -981,9 +771,10 @@ const CONFIG = {
 
   /* --- ngày giờ (đếm ngược dựa vào eventDate) --- */
   eventDate: "2026-09-20T10:00:00+07:00",
+  dowText:   "Chủ Nhật",
   dayText:   "20",
-  monthText: "THÁNG 9 · 2026",
-  dowText:   "CHỦ NHẬT",
+  monthText: "Tháng 9",
+  yearText:  "2026",
   timeText:  "10:00",
   dateText:  "20.09.2026",
   lunarText: "Nhằm ngày 10 tháng 8 năm Bính Ngọ",
@@ -1004,7 +795,7 @@ const CONFIG = {
     when: "10:00 · Chủ Nhật, 20.09.2026",
 
     /* Người hướng dẫn đường đi.
-       primary:true = số CHÍNH, hiện to + nền vàng. Các số còn lại xuống dòng "máy phụ".
+       primary:true = số CHÍNH, hiện to. Các số còn lại xuống dòng nhỏ bên dưới.
        Để mảng rỗng [] là ẩn hẳn khối gọi. */
     contacts: [
       { who: "Bác Bùi Anh Tuấn · chỉ đường", phone: "0908104042", primary: true },
@@ -1014,57 +805,48 @@ const CONFIG = {
 
   /* --- BẢN ĐỒ CHỈ ĐƯỜNG ---------------------------------------
      ⚠️ LƯU Ý: hình sơ đồ đang vẽ là đường tới nhà ở đường Phạm Thị Hớn,
-     Bình Chánh, TP.HCM (tọa độ bên dưới). Lễ đám hỏi đã chốt ở TÂY NINH
-     → khi có tọa độ + mô tả đường đi Tây Ninh thì vẽ lại sơ đồ,
+     Bình Chánh, TP.HCM (toạ độ bên dưới). Lễ đám hỏi đã chốt ở TÂY NINH
+     → khi có toạ độ + mô tả đường đi Tây Ninh thì vẽ lại sơ đồ,
      hoặc đặt show:false để chỉ hiện nút Google Maps.
      ------------------------------------------------------------ */
   map: {
     show:   true,
     coords: "10.647887, 106.560695",
-    // để trống thì tự sinh link Google Maps từ coords
-    mapsUrl: "",
-    // dòng ghi chú nhỏ dưới sơ đồ — để chuỗi rỗng "" là ẩn
-    notice: "Sơ đồ hiện tại là đường tới tư gia ở Bình Chánh, TP.HCM — đang chờ tọa độ Tây Ninh để vẽ lại.",
+    mapsUrl: "",   // để trống thì tự sinh link Google Maps từ coords
+    notice: "Sơ đồ hiện tại là đường tới tư gia ở Bình Chánh, TP.HCM — đang chờ toạ độ Tây Ninh để vẽ lại.",
   },
 
   /* --- chương trình lễ --- */
   timeline: [
-    { ic:"🚌", h:"07:30", t:"Nhà trai xuất phát",           n:"Điểm danh đội bê mâm. Ai ngủ nướng thì ở lại giữ nhà." },
-    { ic:"🚪", h:"09:30", t:"Tới cổng nhà gái",             n:"Chỉnh lại áo dài, hít một hơi thật sâu, rồi vào." },
-    { ic:"🎁", h:"10:00", t:"Lễ trao mâm quả",              n:"Khoảnh khắc nhà trai đứng thẳng lưng nhất trong năm." },
-    { ic:"🙏", h:"10:15", t:"Lễ gia tiên",                  n:"Thắp hương, ra mắt ông bà. Nghiêm túc đoạn này thôi." },
-    { ic:"💍", h:"10:30", t:"Trao nhẫn đính hôn",           n:"Chú rể xỏ nhẫn — cấm run tay, có người chụp hình." },
-    { ic:"📸", h:"10:45", t:"Chụp ảnh cùng hai họ",         n:"Ai cũng đẹp. Riêng ai nhắm mắt thì chụp lại." },
-    { ic:"🍽️", h:"11:15", t:"Dùng cơm thân mật",            n:"Phần thưởng cho toàn bộ nhân sự tham gia." },
+    { h:"07:30", t:"Nhà trai khởi hành",      n:"Đoàn nhà trai xuất phát từ TP. Hồ Chí Minh." },
+    { h:"09:30", t:"Đến nhà gái",             n:"Đoàn nhà trai có mặt trước tư gia." },
+    { h:"10:00", t:"Lễ trao mâm quả",         n:"Nhà trai dâng lễ vật, nhà gái đón nhận." },
+    { h:"10:15", t:"Lễ gia tiên",             n:"Thắp hương ra mắt tổ tiên hai họ." },
+    { h:"10:30", t:"Trao nhẫn đính hôn",      n:"Đôi trẻ trao nhẫn trước sự chứng kiến của hai họ." },
+    { h:"10:45", t:"Chụp ảnh lưu niệm",       n:"Chụp ảnh cùng gia đình và quan khách." },
+    { h:"11:15", t:"Dùng cơm thân mật",       n:"Kính mời Quý khách dùng bữa cùng gia đình." },
   ],
 
-  /* --- đội hình mâm quả --- */
+  /* --- sáu mâm quả --- */
   trays: [
-    { nm:"Trầu cau",     nt:"Mâm chủ lực. Thiếu là quay xe." },
-    { nm:"Trà &amp; Rượu",   nt:"Kính hai họ. Uống ít thôi ạ." },
-    { nm:"Bánh phu thê", nt:"Ngọt như hai đứa (nhà trai tự nhận)." },
-    { nm:"Trái cây",     nt:"Mâm nặng nhất. Chọn người khỏe." },
-    { nm:"Xôi &amp; Gà",     nt:"Mâm được các cháu quan tâm nhất." },
-    { nm:"Trang sức",    nt:"Mâm nhỏ nhất — quan trọng nhất." },
+    { nm:"Trầu cau",     nt:"Lễ vật mở đầu, theo đúng phong tục." },
+    { nm:"Trà &amp; Rượu",   nt:"Kính dâng lên tổ tiên hai họ." },
+    { nm:"Bánh phu thê", nt:"Biểu trưng cho nghĩa vợ chồng." },
+    { nm:"Trái cây",     nt:"Cầu mong ngọt lành, sung túc." },
+    { nm:"Xôi &amp; Gà",     nt:"Lễ vật truyền thống dâng gia tiên." },
+    { nm:"Trang sức",    nt:"Nhà trai trao cho cô dâu." },
   ],
 
   /* --- nhạc nền: file để CÙNG THƯ MỤC với index.html rồi ghi đúng tên ở đây.
-         Rỗng "" = ẩn nút nhạc. File thiếu/sai tên -> nút cũng TỰ ẨN (không để nút chết).
+         Rỗng "" = ẩn nút nhạc. File thiếu/sai tên -> nút cũng TỰ ẨN.
          Nhạc bật lúc bấm "Mở thiệp" — trình duyệt chặn tự phát khi mới vào trang. --- */
   musicUrl: "yes-i-do.mp3",
-  musicVolume: 0.55,      // 0–1 · mở to quá làm khách giật mình
-  musicFadeIn: 2200,      // ms · nhạc vào êm thay vì bật phát to ngay
+  musicVolume: 0.55,      // 0–1
+  musicFadeIn: 2200,      // ms · nhạc vào êm thay vì bật to ngay
 
   /* --- RSVP: dán link Google Form (…/formResponse) hoặc endpoint riêng.
          Để trống -> vẫn hiện lời cảm ơn nhưng chỉ chạy phía trình duyệt. --- */
   rsvpEndpoint: "",
-
-  /* --- câu thoại bật ra khi bấm vào chibi --- */
-  taps: [
-    "Ê, đừng chọt nữa 😳", "Bấm hoài chibi chóng mặt!", "Nhớ đi đám hỏi nha!",
-    "Mâm quả nặng lắm đó bạn ơi 🥲", "Đã chốt đơn, không hoàn không đổi 💍",
-    "Bạn là người thứ n bấm vào đây 😌", "Đi trễ là hết xôi gà đó!",
-  ],
 };
 
 /* ============================================================
@@ -1077,10 +859,10 @@ const CONFIG = {
   set("cv-names", `${C.groom} <span class="amp">&amp;</span> ${C.bride}`);
   set("cv-date",  C.dateText.replace(/\./g," . "));
   set("h-groom",  C.groom);      set("h-bride", C.bride);
-  set("h-day",    C.dayText);    set("h-month", C.monthText);
-  set("h-dow",    C.dowText);    set("h-time",  C.timeText);
-  set("h-lunar",  C.lunarText);
-  set("t-names",  `${C.groom} &amp; ${C.bride}`);
+  set("h-dow",    C.dowText);    set("h-day",   C.dayText);
+  set("h-month",  C.monthText);  set("h-year",  C.yearText);
+  set("h-time",   C.timeText);   set("h-lunar", C.lunarText);
+  set("t-names",  `${C.groom} <span class="amp">&amp;</span> ${C.bride}`);
   set("t-date",   C.dateText);
 
   set("groom-dad",C.groomDad); set("groom-mom",C.groomMom); set("groom-addr",C.groomAddr);
@@ -1090,20 +872,20 @@ const CONFIG = {
   set("venue-name",C.venue.name); set("venue-addr",C.venue.addr); set("venue-when",C.venue.when);
   document.title = `Thiệp Mời Đám Hỏi — ${C.groom} & ${C.bride}`;
 
-  /* timeline */
+  /* trình tự buổi lễ */
   document.getElementById("timeline").innerHTML = C.timeline.map(e=>`
-    <li><div class="dot">${e.ic}</div>
-      <div class="txt"><div class="h">${e.h}</div><div class="t">${e.t}</div><div class="n">${e.n}</div></div>
+    <li><div class="h">${e.h}</div><span class="bullet"></span>
+      <div class="txt"><div class="t">${e.t}</div><div class="n">${e.n}</div></div>
     </li>`).join("");
 
-  /* mâm quả */
+  /* sáu mâm quả */
   document.getElementById("trays").innerHTML = C.trays.map((t,i)=>`
     <div class="tray">
-      <svg class="chibi ${i%2?'bob-2':'bob'} tapme" viewBox="0 0 120 170" aria-hidden="true"><use href="#c-bearer"/></svg>
-      <div class="nm">${i+1}. ${t.nm}</div><div class="nt">${t.nt}</div>
+      <div class="no">${String(i+1).padStart(2,"0")}</div>
+      <div><div class="nm">${t.nm}</div><div class="nt">${t.nt}</div></div>
     </div>`).join("");
 
-  /* bản đồ + tọa độ + nút */
+  /* bản đồ + toạ độ */
   const mapsUrl = C.map.mapsUrl || `https://www.google.com/maps?q=${encodeURIComponent(C.map.coords)}`;
   const aMaps = document.getElementById("btn-maps");
   if(aMaps) aMaps.href = mapsUrl;
@@ -1111,40 +893,36 @@ const CONFIG = {
   const box = document.getElementById("mapbox");
   if(!C.map.show && box) box.style.display="none";
   if(box){
-    // Bấm sơ đồ -> mở Maps, NHƯNG phải phân biệt "chạm" với "kéo ngang để xem":
+    // Chạm sơ đồ -> mở Maps, NHƯNG phải phân biệt "chạm" với "kéo ngang để xem":
     // kéo xong trình duyệt vẫn phát click, không chặn thì mở Maps ngoài ý muốn.
     box.style.cursor = "pointer";
-    let sx = 0, sy = 0, sl = 0, moved = false;
-    const start = (x,y) => { sx=x; sy=y; sl=box.scrollLeft; moved=false; };
-    const move  = (x,y) => {
-      if(Math.abs(x-sx) > 8 || Math.abs(y-sy) > 8 || Math.abs(box.scrollLeft-sl) > 4) moved = true;
-    };
-    box.addEventListener("pointerdown", e=>start(e.clientX,e.clientY));
-    box.addEventListener("pointermove", e=>move(e.clientX,e.clientY));
-    box.addEventListener("scroll", ()=>{ if(Math.abs(box.scrollLeft-sl) > 4) moved = true; });
+    let sx=0, sy=0, sl=0, moved=false;
+    box.addEventListener("pointerdown", e=>{ sx=e.clientX; sy=e.clientY; sl=box.scrollLeft; moved=false; });
+    box.addEventListener("pointermove", e=>{
+      if(Math.abs(e.clientX-sx)>8 || Math.abs(e.clientY-sy)>8 || Math.abs(box.scrollLeft-sl)>4) moved=true;
+    });
+    box.addEventListener("scroll", ()=>{ if(Math.abs(box.scrollLeft-sl)>4) moved=true; });
     box.addEventListener("click", e=>{
       if(moved){ e.preventDefault(); return; }
       window.open(mapsUrl,"_blank","noopener");
     });
   }
   const hint = document.getElementById("map-hint");
-  if(hint && C.map.notice) hint.innerHTML = hint.innerHTML + "<br>⚠️ " + C.map.notice;
+  if(hint && C.map.notice) hint.innerHTML += "<br>" + C.map.notice;
 
   /* khối gọi hỏi đường */
   const cbox = document.getElementById("callbox");
   const list = C.venue.contacts || [];
   if(!cbox || !list.length){ if(cbox) cbox.style.display = "none"; }
   else {
-    // số nào đánh primary thì lên trước; không đánh thì lấy số đầu tiên làm chính
     const main = list.find(c=>c.primary) || list[0];
     const alt  = list.filter(c=>c !== main);
     const tel  = p => "tel:" + String(p).replace(/[^\d+]/g,"");
-    // 0908104042 -> 0908 104 042 (dễ đọc, dễ bấm tay)
+    // 0908104042 -> 0908 104 042 (dễ đọc, dễ bấm)
     const pretty = p => String(p).replace(/\D/g,"").replace(/^(\d{4})(\d{3})(\d{3})$/,"$1 $2 $3");
     cbox.innerHTML =
-      '<div class="lead">Đi lạc thì gọi ngay</div>' +
+      '<div class="lead">Cần chỉ đường xin liên hệ</div>' +
       `<a class="call-main" href="${tel(main.phone)}">
-         <span class="ico">📞</span>
          <span class="txt"><span class="who">${main.who || "Chỉ đường"}</span><br>
          <span class="num">${pretty(main.phone)}</span></span>
        </a>` +
@@ -1169,13 +947,12 @@ const VOL  = Math.max(0, Math.min(1, CONFIG.musicVolume ?? 0.55));
 const FADE = CONFIG.musicFadeIn ?? 2200;
 let fadeTimer = null;
 
-/* File nhạc thiếu hoặc sai tên -> ẩn nút luôn, đừng để nút bấm không ra gì */
+/* File nhạc thiếu hoặc sai tên -> ẩn nút, đừng để nút bấm không ra gì */
 music.addEventListener("error", ()=>{
   musicBtn.style.display = "none";
   musicBtn.classList.remove("spin","hint");
 });
 
-/* Tăng âm dần cho nhạc vào êm */
 function fadeTo(target, ms){
   clearInterval(fadeTimer);
   const from = music.volume, steps = Math.max(1, Math.round(ms/60));
@@ -1201,10 +978,10 @@ function toggleMusic(force){
       playing = false;
       musicBtn.classList.remove("spin");
       // Phân biệt 2 lý do play() thất bại — nhìn giống nhau nhưng xử lý trái ngược:
-      //   thiếu/sai file nhạc  -> ẩn nút (bấm cũng không ra gì)
+      //   thiếu/sai file nhạc   -> ẩn nút (bấm cũng không ra gì)
       //   bị chặn tự phát (iOS) -> nhấp nháy mời khách tự bấm, bấm là chạy
-      // networkState 3 = NETWORK_NO_SOURCE. Phải kiểm ở đây vì src được gán
-      // trước lúc listener 'error' bên dưới kịp gắn nên event có thể lọt.
+      // networkState 3 = NETWORK_NO_SOURCE. Phải kiểm ở đây vì src gán trước
+      // lúc listener 'error' kịp gắn nên event có thể lọt.
       if(music.error || music.networkState === 3){
         musicBtn.style.display = "none";
         musicBtn.classList.remove("hint");
@@ -1223,8 +1000,8 @@ document.getElementById("open-btn").addEventListener("click",()=>{
   cover.classList.add("open");
   document.body.classList.remove("locked");
   if(CONFIG.musicUrl){ musicBtn.style.display="flex"; toggleMusic(true); }
-  burst(34);
-  setTimeout(()=>cover.remove(), 800);
+  fallLeaves(20);
+  setTimeout(()=>cover.remove(), 1000);
 });
 musicBtn.addEventListener("click",()=>toggleMusic());
 
@@ -1259,65 +1036,23 @@ musicBtn.addEventListener("click",()=>toggleMusic());
 })();
 
 /* ============================================================
-   MƯA TIM / HOA
+   LÁ Ô LIU RƠI
    ============================================================ */
-const GLYPHS = ["💗","🌸","💛","✨","💐","🎉"];
-function burst(n){
-  const host = document.getElementById("confetti");
+function fallLeaves(n){
+  const host = document.getElementById("petals");
+  if(!host) return;
   for(let i=0;i<n;i++){
-    const s = document.createElement("span");
-    s.textContent = GLYPHS[Math.floor(Math.random()*GLYPHS.length)];
+    const s = document.createElement("i");
     s.style.left = Math.random()*100 + "vw";
-    s.style.fontSize = (13 + Math.random()*16) + "px";
-    s.style.animationDuration = (3.4 + Math.random()*3.2) + "s";
-    s.style.animationDelay = (Math.random()*1.1) + "s";
+    const sc = 0.7 + Math.random()*0.9;
+    s.style.transform = `scale(${sc.toFixed(2)})`;
+    s.style.animationDuration = (5 + Math.random()*4) + "s";
+    s.style.animationDelay = (Math.random()*1.6) + "s";
+    s.style.opacity = (0.28 + Math.random()*0.3).toFixed(2);
     host.appendChild(s);
-    setTimeout(()=>s.remove(), 8000);
+    setTimeout(()=>s.remove(), 11000);
   }
 }
-
-/* ============================================================
-   BẤM VÀO CHIBI → NHÚN NHẢY + CÂU THOẠI
-   ============================================================ */
-document.addEventListener("click",(ev)=>{
-  const el = ev.target.closest(".tapme");
-  if(!el) return;
-  el.classList.remove("wiggle");
-  void el.offsetWidth;
-  el.classList.add("wiggle");
-  const line = CONFIG.taps[Math.floor(Math.random()*CONFIG.taps.length)];
-  const tip = document.createElement("div");
-  tip.className = "bubble";
-  tip.textContent = line;
-  Object.assign(tip.style,{position:"fixed",zIndex:95,pointerEvents:"none",transition:"opacity .4s,transform .4s"});
-  document.body.appendChild(tip);
-  const r = el.getBoundingClientRect();
-  tip.style.left = Math.max(10, Math.min(window.innerWidth - tip.offsetWidth - 10, r.left + r.width/2 - tip.offsetWidth/2)) + "px";
-  tip.style.top  = Math.max(10, r.top - tip.offsetHeight - 14) + "px";
-  setTimeout(()=>{ tip.style.opacity="0"; tip.style.transform="translateY(-12px)"; },1500);
-  setTimeout(()=>tip.remove(),2000);
-  burst(5);
-});
-
-/* ============================================================
-   COPY TỌA ĐỘ
-   ============================================================ */
-document.getElementById("coords").addEventListener("click",(e)=>{
-  e.stopPropagation();
-  const box = e.currentTarget;
-  const txt = document.getElementById("coords-txt").textContent;
-  const done = () => {
-    box.classList.add("done");
-    const old = document.getElementById("coords-txt").textContent;
-    document.getElementById("coords-txt").textContent = "Đã copy tọa độ ✓";
-    setTimeout(()=>{ document.getElementById("coords-txt").textContent = old; box.classList.remove("done"); },1600);
-  };
-  if(navigator.clipboard) navigator.clipboard.writeText(txt).then(done).catch(()=>{});
-  else {
-    const ta=document.createElement("textarea"); ta.value=txt; document.body.appendChild(ta);
-    ta.select(); try{document.execCommand("copy"); done();}catch(_){} ta.remove();
-  }
-});
 
 /* ============================================================
    XEM SƠ ĐỒ CỠ LỚN
@@ -1362,7 +1097,26 @@ document.getElementById("coords").addEventListener("click",(e)=>{
 })();
 
 /* ============================================================
-   RSVP
+   SAO CHÉP TOẠ ĐỘ
+   ============================================================ */
+document.getElementById("coords").addEventListener("click",(e)=>{
+  e.stopPropagation();
+  const box = e.currentTarget;
+  const el  = document.getElementById("coords-txt");
+  const txt = el.textContent;
+  const done = () => {
+    el.textContent = "Đã sao chép toạ độ";
+    setTimeout(()=>{ el.textContent = txt; }, 1600);
+  };
+  if(navigator.clipboard) navigator.clipboard.writeText(txt).then(done).catch(()=>{});
+  else {
+    const ta=document.createElement("textarea"); ta.value=txt; document.body.appendChild(ta);
+    ta.select(); try{document.execCommand("copy"); done();}catch(_){} ta.remove();
+  }
+});
+
+/* ============================================================
+   XÁC NHẬN THAM DỰ
    ============================================================ */
 document.getElementById("rsvp-form").addEventListener("submit", async (e)=>{
   e.preventDefault();
@@ -1373,7 +1127,7 @@ document.getElementById("rsvp-form").addEventListener("submit", async (e)=>{
   }
   form.style.display = "none";
   document.getElementById("rsvp-thanks").classList.add("on");
-  burst(26);
+  fallLeaves(14);
 });
 </script>
 </body>
