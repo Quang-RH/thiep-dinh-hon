@@ -193,11 +193,6 @@ body.locked{overflow:hidden}
 }
 .tray .nm{font-family:var(--f-serif); font-size:16.5px; color:var(--ink)}
 .tray .nt{font-size:13.5px; color:var(--ink-soft); line-height:1.6}
-/* lễ vật trao riêng — tách khỏi danh sách đánh số để không bị hiểu là mâm thứ 6 */
-.tray-extra{margin-top:22px; padding:20px 22px; background:var(--cream-2); border-radius:8px; text-align:center}
-.tray-extra .ex-lead{font-size:10.5px; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); margin-bottom:6px}
-.tray-extra .ex-nm{font-family:var(--f-serif); font-size:17px; color:var(--ink)}
-.tray-extra .ex-nt{font-size:13.5px; color:var(--ink-soft); line-height:1.6; margin-top:2px}
 
 /* ============================================================
    8 · ĐỊA ĐIỂM + BẢN ĐỒ
@@ -458,8 +453,8 @@ body.locked{overflow:hidden}
   </div>
 </section>
 
-<!-- ============ 7 · MÂM QUẢ ============ -->
-<section class="reveal">
+<!-- ============ 7 · MÂM QUẢ (đang TẮT — xem CONFIG.showTrays) ============ -->
+<section class="reveal" id="sec-trays">
   <div class="wrap center">
     <span class="label">Lễ vật</span>
     <h2 class="sec-title" id="trays-title">Năm mâm quả</h2>
@@ -467,7 +462,6 @@ body.locked{overflow:hidden}
   </div>
   <div class="wrap">
     <div class="trays" id="trays"></div>
-    <div class="tray-extra" id="trays-extra"></div>
   </div>
 </section>
 
@@ -833,7 +827,12 @@ const CONFIG = {
     { h:"11:15", t:"Dùng cơm thân mật",       n:"Kính mời Quý khách dùng bữa cùng gia đình." },
   ],
 
-  /* --- sáu mâm quả --- */
+  /* --- MÂM QUẢ: đang TẮT trên thiệp -------------------------------
+     Lễ vật là việc nội bộ hai nhà lo, khách mời không cần biết.
+     Đổi showTrays: true là mục này hiện lại, danh sách giữ nguyên bên dưới.
+     Tiêu đề tự đếm theo số mâm (5 mâm -> "Năm mâm quả").
+     ------------------------------------------------------------------ */
+  showTrays: false,
   trays: [
     { nm:"Trầu cau",     nt:"Lễ vật mở đầu, theo đúng phong tục." },
     { nm:"Trà &amp; Rượu",   nt:"Kính dâng lên tổ tiên hai họ." },
@@ -841,12 +840,6 @@ const CONFIG = {
     { nm:"Trái cây",     nt:"Cầu mong ngọt lành, sung túc." },
     { nm:"Bánh ngọt",    nt:"Chia lộc ngọt cùng họ hàng, quan khách." },
   ],
-  /* Lễ vật trao riêng, KHÔNG nằm trong số mâm quả.
-     Để null nếu không muốn hiện khối này. */
-  traysExtra: {
-    nm: "Hộp trang sức",
-    nt: "Nhà trai trao riêng cho cô dâu trong lễ, không tính vào mâm quả.",
-  },
 
   /* --- nhạc nền: file để CÙNG THƯ MỤC với index.html rồi ghi đúng tên ở đây.
          Rỗng "" = ẩn nút nhạc. File thiếu/sai tên -> nút cũng TỰ ẨN.
@@ -889,23 +882,18 @@ const CONFIG = {
       <div class="txt"><div class="t">${e.t}</div><div class="n">${e.n}</div></div>
     </li>`).join("");
 
-  /* mâm quả — tiêu đề đếm theo đúng số mâm trong danh sách, khỏi lệch khi thêm bớt */
-  document.getElementById("trays").innerHTML = C.trays.map((t,i)=>`
-    <div class="tray">
-      <div class="no">${String(i+1).padStart(2,"0")}</div>
-      <div><div class="nm">${t.nm}</div><div class="nt">${t.nt}</div></div>
-    </div>`).join("");
-  const SO = ["Không","Một","Hai","Ba","Bốn","Năm","Sáu","Bảy","Tám","Chín","Mười"];
-  set("trays-title", (SO[C.trays.length] || C.trays.length) + " mâm quả");
-
-  /* lễ vật trao riêng, không nằm trong số mâm quả */
-  const ex = document.getElementById("trays-extra");
-  if(ex){
-    if(C.traysExtra){
-      ex.innerHTML = `<div class="ex-lead">Trao riêng</div>
-        <div class="ex-nm">${C.traysExtra.nm}</div>
-        <div class="ex-nt">${C.traysExtra.nt}</div>`;
-    } else { ex.style.display = "none"; }
+  /* mâm quả — mặc định TẮT; tiêu đề tự đếm theo số mâm nên không lệch khi thêm bớt */
+  const secTrays = document.getElementById("sec-trays");
+  if(!C.showTrays){
+    if(secTrays) secTrays.remove();
+  } else {
+    document.getElementById("trays").innerHTML = C.trays.map((t,i)=>`
+      <div class="tray">
+        <div class="no">${String(i+1).padStart(2,"0")}</div>
+        <div><div class="nm">${t.nm}</div><div class="nt">${t.nt}</div></div>
+      </div>`).join("");
+    const SO = ["Không","Một","Hai","Ba","Bốn","Năm","Sáu","Bảy","Tám","Chín","Mười"];
+    set("trays-title", (SO[C.trays.length] || C.trays.length) + " mâm quả");
   }
 
   /* bản đồ + toạ độ */
