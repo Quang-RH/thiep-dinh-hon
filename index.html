@@ -350,6 +350,42 @@ section:has(#rsvp-form) .card{padding:20px 18px}
 .reveal{opacity:0; transform:translateY(28px); transition:opacity .9s ease, transform .9s ease}
 .reveal.in{opacity:1; transform:none}
 
+/* ============================================================
+   GỢI Ý VUỐT + DÃY CHẤM CHỈ MỤC
+   ============================================================ */
+#scrollcue{
+  position:fixed; left:50%; bottom:18px; transform:translateX(-50%);
+  z-index:60; display:none; flex-direction:column; align-items:center; gap:5px;
+  color:var(--green); pointer-events:none;
+  opacity:0; transition:opacity .6s ease;
+}
+#scrollcue.on{display:flex; opacity:1}
+#scrollcue.hide{opacity:0}
+#scrollcue .cue-txt{
+  font-size:10px; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--ink-soft);
+}
+#scrollcue svg{width:22px; height:13px; animation:cueBob 1.8s ease-in-out infinite}
+@keyframes cueBob{
+  0%,100%{transform:translateY(0);   opacity:.5}
+  50%    {transform:translateY(6px); opacity:1}
+}
+
+#dots{
+  position:fixed; right:9px; top:50%; transform:translateY(-50%);
+  z-index:60; display:none; flex-direction:column; gap:9px;
+}
+#dots.on{display:flex}
+#dots button{
+  width:8px; height:8px; padding:0; border-radius:50%; cursor:pointer;
+  /* nền mờ nhẹ thay vì trong suốt — trong suốt thì chấm chìm mất trên nền kem */
+  background:rgba(139,154,114,.28); border:1px solid var(--green-soft);
+  transition:background .3s ease, border-color .3s ease, transform .3s ease;
+}
+#dots button.active{background:var(--gold); border-color:var(--gold); transform:scale(1.45)}
+#dots button:focus-visible{outline:2px solid var(--green); outline-offset:3px}
+@media(max-width:340px){ #dots{display:none!important} }
+
 /* lá ô liu rơi nhẹ khi mở thiệp */
 #petals{position:fixed; inset:0; pointer-events:none; z-index:80; overflow:hidden}
 #petals i{
@@ -362,6 +398,7 @@ section:has(#rsvp-form) .card{padding:20px 18px}
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important; transition:none!important}
   .reveal{opacity:1; transform:none}
+  #scrollcue svg{animation:none}
 }
 </style>
 </head>
@@ -819,6 +856,15 @@ section:has(#rsvp-form) .card{padding:20px 18px}
   <div class="mv-scroll mapbox"></div>
 </div>
 
+<div id="scrollcue" aria-hidden="true">
+  <span class="cue-txt">Vuốt xuống</span>
+  <svg viewBox="0 0 24 14" fill="none" aria-hidden="true">
+    <path d="M2 2 L12 11 L22 2" stroke="currentColor" stroke-width="1.7"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</div>
+<nav id="dots" aria-label="Chuyển nhanh giữa các mục"></nav>
+
 <button id="music-btn" title="Bật/tắt nhạc" aria-label="Bật tắt nhạc">♪</button>
 <audio id="bg-music" loop preload="auto"></audio>
 <div id="petals" aria-hidden="true"></div>
@@ -1093,6 +1139,7 @@ document.getElementById("open-btn").addEventListener("click",()=>{
   cover.classList.add("open");
   document.body.classList.remove("locked");
   if(CONFIG.musicUrl){ musicBtn.style.display="flex"; toggleMusic(true); }
+  showNav();
   fallLeaves(20);
   setTimeout(()=>cover.remove(), 1000);
 });
@@ -1127,6 +1174,65 @@ musicBtn.addEventListener("click",()=>toggleMusic());
   },{threshold:.12});
   els.forEach(e=>io.observe(e));
 })();
+
+/* ============================================================
+   GỢI Ý VUỐT + DÃY CHẤM CHỈ MỤC
+   Mỗi mục là 1 slide trọn màn hình nên khách rất dễ tưởng thiệp chỉ có
+   1 màn. Mũi chỉ xuống ở màn đầu nói "còn nữa", dãy chấm nói "còn bao nhiêu".
+   ============================================================ */
+const slides = Array.from(document.querySelectorAll("section, header.hero"));
+const cue    = document.getElementById("scrollcue");
+const dotBox = document.getElementById("dots");
+
+function buildNav(){
+  if(!dotBox) return;
+  dotBox.innerHTML = slides.map((el,i)=>{
+    const t = (el.querySelector(".sec-title,.names") || {}).textContent || ("Mục " + (i+1));
+    return `<button type="button" data-i="${i}" aria-label="${String(t).trim().slice(0,40)}"></button>`;
+  }).join("");
+  dotBox.addEventListener("click", e=>{
+    const b = e.target.closest("button");
+    if(!b) return;
+    const el = slides[Number(b.dataset.i)];
+    if(el) el.scrollIntoView({behavior:"smooth", block:"start"});
+  });
+}
+
+let cueDaAn = false;   // mũi chỉ xuống chỉ dạy 1 lần rồi thôi
+function anCue(){
+  if(cueDaAn || !cue) return;
+  cueDaAn = true;
+  cue.classList.add("hide");
+}
+function markActive(i){
+  if(!dotBox) return;
+  dotBox.querySelectorAll("button").forEach((b,j)=>b.classList.toggle("active", j===i));
+  // Rời màn đầu là ẩn. KHÔNG bật lại khi quay lên — bật lại thì nó nhấp nháy
+  // theo mỗi lần khách cuộn qua cuộn lại, mà khách thì đã biết cách vuốt rồi.
+  if(i !== 0) anCue();
+}
+
+function showNav(){
+  buildNav();
+  if(dotBox) dotBox.classList.add("on");
+  if(cue)    cue.classList.add("on");
+  markActive(0);
+
+  if("IntersectionObserver" in window){
+    const io = new IntersectionObserver((rows)=>{
+      rows.forEach(r=>{
+        if(r.isIntersecting) markActive(slides.indexOf(r.target));
+      });
+    },{threshold:.55});
+    slides.forEach(el=>io.observe(el));
+  }
+  // Vuốt cái đầu tiên là ẩn luôn, khỏi chờ sang hết slide.
+  window.addEventListener("scroll", ()=>{
+    if(window.scrollY > 30) anCue();
+  }, {passive:true});
+  // Chạm/vuốt trên màn đầu cũng tính là đã hiểu.
+  window.addEventListener("touchstart", anCue, {passive:true, once:true});
+}
 
 /* ============================================================
    LÁ Ô LIU RƠI
